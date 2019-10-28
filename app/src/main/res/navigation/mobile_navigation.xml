@@ -24,8 +24,8 @@
         tools:layout="@layout/fragment_tips" />
 
     <fragment
-        android:id="@+id/navigation_menu"
-        android:name="com.example.home.ui.menu.MenuFragment"
-        android:label="@string/title_menu"
-        tools:layout="@layout/fragment_menu" />
+        android:id="@+id/navigation_more"
+        android:name="com.example.home.ui.more.MoreFragment"
+        android:label="@string/title_more"
+        tools:layout="@layout/fragment_more" />
 </navigation>

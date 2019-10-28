@@ -1,4 +1,4 @@
-package com.example.home.ui.menu;
+package com.example.home.ui.more;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.R;
 
-public class MenuFragment extends Fragment {
+public class MoreFragment extends Fragment {
 
-    private MenuViewModel menuViewModel;
+    private MoreViewModel moreViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        menuViewModel =
-                ViewModelProviders.of(this).get(MenuViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_menu, container, false);
+        moreViewModel =
+                ViewModelProviders.of(this).get(MoreViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_more, container, false);
         final TextView textView = root.findViewById(R.id.text_menu);
-        menuViewModel.getText().observe(this, new Observer<String>() {
+        moreViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
