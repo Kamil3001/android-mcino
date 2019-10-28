@@ -22,7 +22,7 @@ public class MoreFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         moreViewModel =
                 ViewModelProviders.of(this).get(MoreViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_more, container, false);
+        View root = inflater.inflate(R.layout.more_fragment, container, false);
         final TextView textView = root.findViewById(R.id.text_menu);
         moreViewModel.getText().observe(this, new Observer<String>() {
             @Override

@@ -1,16 +1,15 @@
-package com.example.home.ui.contacts;
+package com.example.home.ui.privacy;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ContactsViewModel extends ViewModel {
-
+public class PrivacyViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
-    public ContactsViewModel() {
+    public PrivacyViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is Contacts fragment");
+        mText.setValue("This is FAQ fragment");
     }
 
     public LiveData<String> getText() {

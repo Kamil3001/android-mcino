@@ -1,4 +1,4 @@
-package com.example.home.ui.tips;
+package com.example.home.ui.privacy;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,25 +6,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.R;
 
-public class TipsFragment extends Fragment {
+public class PrivacyFragment extends Fragment {
 
-    private TipsViewModel tipsViewModel;
+    private PrivacyViewModel privacyViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        tipsViewModel =
-                ViewModelProviders.of(this).get(TipsViewModel.class);
-        View root = inflater.inflate(R.layout.tips_fragment, container, false);
-        final TextView textView = root.findViewById(R.id.text_tips);
-        tipsViewModel.getText().observe(this, new Observer<String>() {
+        privacyViewModel =
+                ViewModelProviders.of(this).get(PrivacyViewModel.class);
+        View root = inflater.inflate(R.layout.contacts_fragment, container, false);
+        final TextView textView = root.findViewById(R.id.text_contacts);
+        privacyViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
@@ -32,4 +32,5 @@ public class TipsFragment extends Fragment {
         });
         return root;
     }
+
 }

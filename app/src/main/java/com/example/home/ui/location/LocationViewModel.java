@@ -1,16 +1,15 @@
-package com.example.home.ui.contacts;
+package com.example.home.ui.location;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ContactsViewModel extends ViewModel {
-
+public class LocationViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
-    public ContactsViewModel() {
+    public LocationViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is Contacts fragment");
+        mText.setValue("This is FAQ fragment");
     }
 
     public LiveData<String> getText() {
