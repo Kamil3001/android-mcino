@@ -1,4 +1,4 @@
-package com.example.home.ui.dashboard;
+package com.example.home.ui.tips;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.R;
 
-public class DashboardFragment extends Fragment {
+public class TipsFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private TipsViewModel tipsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(this, new Observer<String>() {
+        tipsViewModel =
+                ViewModelProviders.of(this).get(TipsViewModel.class);
+        View root = inflater.inflate(R.layout.tips_fragment, container, false);
+        final TextView textView = root.findViewById(R.id.text_tips);
+        tipsViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

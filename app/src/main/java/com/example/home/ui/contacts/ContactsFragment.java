@@ -1,4 +1,4 @@
-package com.example.home.ui.home;
+package com.example.home.ui.contacts;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.R;
 
-public class HomeFragment extends Fragment {
+public class ContactsFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private ContactsViewModel contactsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.home_fragment, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
+        contactsViewModel =
+                ViewModelProviders.of(this).get(ContactsViewModel.class);
+        View root = inflater.inflate(R.layout.contacts_fragment, container, false);
+        final TextView textView = root.findViewById(R.id.text_contacts);
+        contactsViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
