@@ -20,10 +20,11 @@ public class FaqFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         faqViewModel =
                 ViewModelProviders.of(this).get(FaqViewModel.class);
-        View root = inflater.inflate(R.layout.contacts_fragment, container, false);
-        final TextView textView = root.findViewById(R.id.text_contacts);
+        View root = inflater.inflate(R.layout.faq_fragment, container, false);
+        final TextView textView = root.findViewById(R.id.text_faq);
         faqViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

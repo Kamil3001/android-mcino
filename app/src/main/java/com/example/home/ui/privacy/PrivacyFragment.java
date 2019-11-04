@@ -22,8 +22,9 @@ public class PrivacyFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         privacyViewModel =
                 ViewModelProviders.of(this).get(PrivacyViewModel.class);
-        View root = inflater.inflate(R.layout.contacts_fragment, container, false);
-        final TextView textView = root.findViewById(R.id.text_contacts);
+        View root = inflater.inflate(R.layout.privacy_fragment, container, false);
+        final TextView textView = root.findViewById(R.id.text_privacy
+        );
         privacyViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

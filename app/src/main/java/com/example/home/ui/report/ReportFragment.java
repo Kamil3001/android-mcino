@@ -1,5 +1,6 @@
 package com.example.home.ui.report;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -11,28 +12,28 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.home.R;
 
 public class ReportFragment extends Fragment {
 
-    private ReportViewModel mViewModel;
+    private ReportViewModel reportViewModel;
 
-    public static ReportFragment newInstance() {
-        return new ReportFragment();
-    }
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.report_fragment, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(ReportViewModel.class);
-        // TODO: Use the ViewModel
+        reportViewModel =
+                ViewModelProviders.of(this).get(ReportViewModel.class);
+        View root = inflater.inflate(R.layout.faq_fragment, container, false);
+        final TextView textView = root.findViewById(R.id.text_faq);
+        reportViewModel.getText().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });
+        return root;
     }
 
 }

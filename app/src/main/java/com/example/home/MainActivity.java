@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        NavigationView navigationView = findViewById(R.id.nav_view_more);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -36,4 +36,21 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupWithNavController(navView, navController);
     }
 
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch(item.getItemId()) {
+//            case android.R.id.home:
+//                int count = getSupportFragmentManager().getBackStackEntryCount();
+//                System.out.println(count);
+//                if(count == 0) {
+//                    onBackPressed();
+//                }
+//                else {
+//
+//                }
+//                return false;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 }

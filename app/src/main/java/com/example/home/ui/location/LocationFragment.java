@@ -25,8 +25,8 @@ public class LocationFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         locationViewModel =
                 ViewModelProviders.of(this).get(LocationViewModel.class);
-        View root = inflater.inflate(R.layout.contacts_fragment, container, false);
-        final TextView textView = root.findViewById(R.id.text_contacts);
+        View root = inflater.inflate(R.layout.location_fragment, container, false);
+        final TextView textView = root.findViewById(R.id.text_location);
         locationViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
