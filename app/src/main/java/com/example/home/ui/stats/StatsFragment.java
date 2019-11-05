@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.home.MainActivity;
 import com.example.home.R;
 
 public class StatsFragment extends Fragment {
@@ -33,6 +34,11 @@ public class StatsFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        MainActivity main = (MainActivity) getActivity();
+        main.getSupportActionBar().setTitle(R.string.title_stats);
+        main.uncheckNav();
+
         return root;
     }
 

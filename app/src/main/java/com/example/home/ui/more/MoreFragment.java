@@ -1,5 +1,6 @@
 package com.example.home.ui.more;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.home.MainActivity;
 import com.example.home.R;
 import com.example.home.ui.faq.FaqFragment;
 import com.example.home.ui.privacy.PrivacyFragment;
@@ -46,38 +48,34 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Fragment f;
-        FragmentTransaction t;
-        int containerId = ((ViewGroup) getView().getParent()).getId();
+        MainActivity main = ((MainActivity) getActivity());
+        Fragment f = null;
+        int titleId = 0;
+        int containerId = R.id.nav_host_fragment;
 
         switch(v.getId()) {
             case R.id.btn_stats:
                 f = new StatsFragment();
-                t = getFragmentManager().beginTransaction();
-                t.replace(containerId, f);
-                t.addToBackStack(null);
-                t.commit();
+                titleId = R.string.title_stats;
                 break;
             case R.id.btn_privacy:
                 f = new PrivacyFragment();
-                t = getFragmentManager().beginTransaction();
-                t.replace(containerId, f);
-                t.addToBackStack(null);
-                t.commit();
+                titleId = R.string.title_privacy;
                 break;
             case R.id.btn_faq:
                 f = new FaqFragment();
-                t = getFragmentManager().beginTransaction();
-                t.replace(containerId, f);
-                t.addToBackStack(null);
-                t.commit();
+                titleId = R.string.title_faq;
                 break;
             case R.id.btn_contactus:
                 Toast.makeText(getContext(), "Contact Us clicked", Toast.LENGTH_SHORT).show();
                 break;
-            default:
-                break;
+        }
 
+        if(f != null) {
+            FragmentTransaction t = getFragmentManager().beginTransaction();
+            t.replace(containerId, f);
+            t.addToBackStack(null);
+            t.commit();
         }
     }
 }
