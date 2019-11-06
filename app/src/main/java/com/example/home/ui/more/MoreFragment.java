@@ -48,23 +48,18 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        MainActivity main = ((MainActivity) getActivity());
         Fragment f = null;
-        int titleId = 0;
         int containerId = R.id.nav_host_fragment;
 
         switch(v.getId()) {
             case R.id.btn_stats:
                 f = new StatsFragment();
-                titleId = R.string.title_stats;
                 break;
             case R.id.btn_privacy:
                 f = new PrivacyFragment();
-                titleId = R.string.title_privacy;
                 break;
             case R.id.btn_faq:
                 f = new FaqFragment();
-                titleId = R.string.title_faq;
                 break;
             case R.id.btn_contactus:
                 Toast.makeText(getContext(), "Contact Us clicked", Toast.LENGTH_SHORT).show();
@@ -72,10 +67,10 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         }
 
         if(f != null) {
-            FragmentTransaction t = getFragmentManager().beginTransaction();
-            t.replace(containerId, f);
-            t.addToBackStack(null);
-            t.commit();
+            getFragmentManager().beginTransaction()
+                    .replace(containerId, f)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 }

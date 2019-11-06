@@ -52,6 +52,13 @@ public class MainActivity extends AppCompatActivity{
         menu.setGroupCheckable(0, true, true);
     }
 
+    public void checkNav(int id) {
+        Menu menu = navView.getMenu();
+        menu.setGroupCheckable(0, true, false);
+        menu.findItem(id).setChecked(true);
+        menu.setGroupCheckable(0, true, true);
+    }
+
     //Todo modify this to somehow move about the backstack (currently the manager doesn't see the one accessed from MoreFragment)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
