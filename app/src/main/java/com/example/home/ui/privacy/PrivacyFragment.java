@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.home.MainActivity;
 import com.example.home.R;
 
 public class PrivacyFragment extends Fragment {
@@ -20,6 +21,8 @@ public class PrivacyFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
         privacyViewModel =
                 ViewModelProviders.of(this).get(PrivacyViewModel.class);
         View root = inflater.inflate(R.layout.privacy_fragment, container, false);
@@ -31,6 +34,11 @@ public class PrivacyFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        MainActivity main = (MainActivity) getActivity();
+        main.getSupportActionBar().setTitle(R.string.title_privacy);
+        main.uncheckNav();
+
         return root;
     }
 
