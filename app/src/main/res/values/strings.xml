@@ -13,4 +13,25 @@
     <string name="report">Report</string>
     <string name="contact_phone">Phone: 087–241-FAKE</string>
     <string name="contact_email">E-mail: home-rough-sleepers@fake.com</string>
+    <string name="dos_title">DO\'S</string>
+    <string-array name="dos_list">
+        <item>If possible, always have a friend with you when approaching rough sleepers to ensure your safety.</item>
+        <item>Contact the relevant services if you are worried about a rough sleeper. You can do so directly by accessing the Contacts tab, or submitting a report through the Home tab.</item>
+        <item>Offer them directions to the nearest shelter or any other homeless service you are aware of nearby.</item>
+        <item>If you intend to give food to the rough sleeper make sure they know what it contains, in case of allergies.</item>
+        <item>Offer them a blanket if you can, especially on colder nights. Even if you report a rough sleeper, you don\'t know that they will get shelter that night (or that they\'ll accept it).</item>
+        <item>Best way to help is to volunteer for the different services around the area. They will usually train you in dealing with rough sleepers and ensure your safety.</item>
+        <item>Walk away from a rough sleeper if you fear for your safety at any point. Don\'t worry if you appear rude, safety comes first!</item>
+    </string-array>
+    <string name="donts_title">DON\'TS</string>
+    <string-array name="donts_list">
+        <item>Refrain from offering money to a rough sleeper.  Many people out on the streets are dealing with addiction problems and money can fuel these. If you wish to give money, find a charity which supports your cause and donate to them.</item>
+        <item>Don\'t approach a rough sleeper in a poorly lit area. Remember that you don\'t know this person.</item>
+        <item>Don\'t be rude and/or disrespectful. The person you are dealing with is a human being just like you and deserves to be treated with respect regardless of their circumstances.</item>
+        <item>If you are submitting a photo alongside your report, avoid as much as possible showing the identities of the rough sleeper or anyone else without their consent. The photos ideally should only show the location where the rough sleeper is located, no faces.</item>
+        <item>Don\'t give sugary drinks to the person, they tend to increase thirst rather than quench it. Water or Tea are the best drinks to provide, but ensure the tea is not too hot!</item>
+        <item>Don\'t offer lifts and/or shelter to rough sleepers. Again, you are dealing with strangers, your safety should always be your priority.</item>
+        <item>Don\'t pressure anyone into going to a shelter, they may have had bad experiences and prefer the outside.</item>
+        <item>Never approach a rough sleeper who\'s intoxicated. Intoxicated people can be unpredictable, especially those who are sleeping rough. Your safety comes first!</item>
+    </string-array>
 </resources>
