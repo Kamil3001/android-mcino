@@ -7,15 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.R;
+
+import java.util.Objects;
 
 public class TipsFragment extends Fragment {
 
@@ -32,7 +31,7 @@ public class TipsFragment extends Fragment {
         String[] donts = getResources().getStringArray(R.array.donts_list);
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                getContext(),
+                Objects.requireNonNull(getContext()),
                 android.R.layout.simple_list_item_1,
                 dos
         );
