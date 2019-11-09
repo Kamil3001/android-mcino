@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -45,7 +44,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         Fragment f = null;
         int containerId = R.id.nav_host_fragment;
 
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.btn_stats:
                 f = new StatsFragment();
                 break;
@@ -56,11 +55,11 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 f = new FaqFragment();
                 break;
             case R.id.btn_contactus:
-                Toast.makeText(getContext(), "Contact Us clicked", Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).showContactInfo();
                 break;
         }
 
-        if(f != null) {
+        if (f != null) {
             getFragmentManager().beginTransaction()
                     .replace(containerId, f)
                     .addToBackStack(null)

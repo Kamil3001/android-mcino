@@ -2,5 +2,9 @@
 <resources>
     <color name="colorPrimary">#292929</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="white">#FFFFFF</color>
+    <color name="call_unpressed">#43B147</color>
+    <color name="call_pressed">#3B9E40</color>
+    <color name="email_unpressed">#03A9F4</color>
+    <color name="email_pressed">#2196F3</color>
 </resources>
