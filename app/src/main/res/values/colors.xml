@@ -7,4 +7,6 @@
     <color name="call_pressed">#3B9E40</color>
     <color name="email_unpressed">#03A9F4</color>
     <color name="email_pressed">#2196F3</color>
+    <color name="dos_green">#2F720C</color>
+    <color name="donts_red">#921C12</color>
 </resources>
