@@ -11,4 +11,6 @@
     <string name="title_contactus">Contact Us</string>
     <string name="copyright_notice">Copyright © 2019 hoME | All rights reserved</string>
     <string name="report">Report</string>
+    <string name="contact_phone">Phone: 087–241-FAKE</string>
+    <string name="contact_email">E-mail: home-rough-sleepers@fake.com</string>
 </resources>

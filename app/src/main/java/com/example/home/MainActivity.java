@@ -1,30 +1,31 @@
 package com.example.home;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.view.WindowManager;
+import android.widget.Button;
 
-import com.example.home.ui.faq.FaqFragment;
-import com.example.home.ui.privacy.PrivacyFragment;
-import com.example.home.ui.stats.StatsFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity{
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView navView;
+    Dialog myDialog;
+    String phoneNo = "087-241-FAKE"; //note FAKE will be translated using numpad by phone
+    String email = "home-rough-sleepers@fake.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +36,19 @@ public class MainActivity extends AppCompatActivity{
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_contacts, R.id.navigation_tips)
+                R.id.navigation_home, R.id.navigation_contacts, R.id.navigation_tips, R.id.navigation_more)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setLogo(R.drawable.home_logo);
+        actionBar.setDisplayUseLogoEnabled(true);
+
+        myDialog = new Dialog(this);
     }
 
     //unchecks the current navigation menu item (called by MoreFragment class when replacing fragments)
@@ -59,20 +68,72 @@ public class MainActivity extends AppCompatActivity{
         menu.setGroupCheckable(0, true, true);
     }
 
-    //Todo modify this to somehow move about the backstack (currently the manager doesn't see the one accessed from MoreFragment)
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case android.R.id.home:
-                int count = getSupportFragmentManager().getBackStackEntryCount();
-                if(count == 0) {
-                    onBackPressed();
-                }
-                else {
+    /*
+    This method displays the contact dialog when Contact Us button is clicked in the More tab.
+    Buttons in charge of intents are hidden if the intents cannot be handled by the user's device.
+    Listeners call methods which start the given intents.
+     */
+    public void showContactInfo() {
+        myDialog.setContentView(R.layout.contact_us_popup);
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        Intent emailIntent = (new Intent(Intent.ACTION_SENDTO)).setData(Uri.parse("mailto:"));
+        Intent callIntent = (new Intent(Intent.ACTION_DIAL)).setData(Uri.parse("tel:" + phoneNo));
+
+        if (emailIntent.resolveActivity(getPackageManager()) == null ||
+                callIntent.resolveActivity(getPackageManager()) == null) {
+            myDialog.getWindow().findViewById(R.id.btn_email).setVisibility(View.GONE);
+            myDialog.getWindow().findViewById(R.id.btn_call).setVisibility(View.GONE);
+        } else {
+            Button emailBtn = myDialog.findViewById(R.id.btn_email);
+            emailBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    composeEmail();
                 }
-                return false;
+            });
+
+            Button callBtn = myDialog.findViewById(R.id.btn_call);
+            callBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialNumber();
+                }
+            });
         }
-        return super.onOptionsItemSelected(item);
+
+        /*
+        Dialog appears to have a fixed width that our xml can't modify.
+        Found fix here: https://jimbaca.com/force-dialog-to-take-up-full-screen-width/
+         */
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        params.copyFrom(myDialog.getWindow().getAttributes());
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        myDialog.getWindow().setAttributes(params);
+
+
+        myDialog.show();
+    }
+
+    /*
+    Starts an email intent.
+    This function assumes that the intent can be handled, and since we hide the buttons if it can't
+    be, by definition this method will only be called if they can be handled.
+     */
+    private void composeEmail() {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+        startActivity(intent);
+    }
+
+    /*
+    Starts a dial intent (User gets to choose whether they would like to call or not).
+    This function assumes that the intent can be handled, and since we hide the buttons if it can't
+    be, by definition this method will only be called if they can be handled.
+     */
+    private void dialNumber() {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNo));
+        startActivity(intent);
     }
 }
