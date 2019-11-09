@@ -1,20 +1,13 @@
 package com.example.home.ui.more;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.MainActivity;
 import com.example.home.R;
@@ -51,7 +44,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         Fragment f = null;
         int containerId = R.id.nav_host_fragment;
 
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.btn_stats:
                 f = new StatsFragment();
                 break;
@@ -62,15 +55,16 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 f = new FaqFragment();
                 break;
             case R.id.btn_contactus:
-                Toast.makeText(getContext(), "Contact Us clicked", Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).showContactInfo();
                 break;
         }
 
-        if(f != null) {
+        if (f != null) {
             getFragmentManager().beginTransaction()
                     .replace(containerId, f)
                     .addToBackStack(null)
                     .commit();
+            ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
         }
     }
 }

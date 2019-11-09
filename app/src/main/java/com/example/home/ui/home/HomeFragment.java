@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -42,8 +41,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void onResume() {
-        ((MainActivity) getActivity()).checkNav(R.id.navigation_home);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_home);
+        MainActivity main = (MainActivity) getActivity();
+        main.checkNav(R.id.navigation_home);
+        main.getSupportActionBar().setTitle(R.string.title_home);
+        main.getSupportActionBar().setDisplayShowHomeEnabled(true);
         super.onResume();
     }
 
@@ -56,6 +57,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     .replace(containerId, new ReportFragment())
                     .addToBackStack(null)
                     .commit();
+            ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
         }
     }
 }
