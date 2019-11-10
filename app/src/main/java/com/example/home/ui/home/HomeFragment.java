@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -26,13 +27,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.home_fragment, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        WebView webView = root.findViewById(R.id.home_web_view);
+        webView.setVerticalScrollBarEnabled(false);
+        webView.loadData(getString(R.string.home_msg), "text/html; charset=utf-8", "utf-8");
 
         Button reportBtn = root.findViewById(R.id.btn_report);
         reportBtn.setOnClickListener(this);
