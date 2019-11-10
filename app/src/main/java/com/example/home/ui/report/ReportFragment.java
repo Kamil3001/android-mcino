@@ -195,8 +195,8 @@ public class ReportFragment extends Fragment implements LocationListener {
                         .show();
             }
             else{
-                Log.i(TAG, "All good...");
-                Log.i(TAG, "Sending values to DB...");
+                Log.i("REPORT", "All good...");
+                Log.i("REPORT", "Sending values to DB...");
                 if(MainActivity.sql.insertReport(location, people, sheltered, description, bmImage)){
                     Toast.makeText(getContext(), "Reported successfully", Toast.LENGTH_LONG).show();
                     Log.i("SQL", MainActivity.sql.getLastEntry());
