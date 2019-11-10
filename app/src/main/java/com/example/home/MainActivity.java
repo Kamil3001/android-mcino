@@ -12,17 +12,20 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.home.utility.sql.DBHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity{
 
     BottomNavigationView navView;
+    public static DBHelper sql;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         navView = findViewById(R.id.nav_view);
+        sql = new DBHelper(this);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity{
                     onBackPressed();
                 }
                 else {
-
+                    //TODO
                 }
                 return false;
         }
