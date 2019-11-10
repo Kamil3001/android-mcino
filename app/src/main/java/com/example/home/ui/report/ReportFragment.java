@@ -192,6 +192,13 @@ public class ReportFragment extends Fragment implements LocationListener {
                         .setMessage("All fields must be filled in before sending your report.")
                         .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
                         .show();
+            }
+            else if(bmImage == null){
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Capture image")
+                        .setMessage("Please take a picture of the rough sleeper as proof.")
+                        .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
+                        .show();
             }else{
                 Log.i(TAG, "Values are not null...");
                 Log.i(TAG, "Sending values to DB...");
