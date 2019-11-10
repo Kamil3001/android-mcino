@@ -1,13 +1,18 @@
 package com.example.home.ui.report;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +31,10 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.home.MainActivity;
 import com.example.home.R;
 import com.example.home.ui.location.LocationFragment;
+import com.example.home.utility.sql.DBHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import static android.content.ContentValues.TAG;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 
 public class ReportFragment extends Fragment implements LocationListener {
@@ -40,6 +47,9 @@ public class ReportFragment extends Fragment implements LocationListener {
     private Switch swSheltered;
     private LocationManager mLocationManager;
     private String reportedLocation;
+
+    private String location, people, description, sheltered, image;
+    private static final int LOCATION_CHECK = 9;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -54,11 +64,11 @@ public class ReportFragment extends Fragment implements LocationListener {
         btnGetLocation = root.findViewById(R.id.btnGetLocation);
         btnSetLocation = root.findViewById(R.id.btnSetLocation);
         btnCamera = root.findViewById(R.id.btnCamera);
+        btnReport = root.findViewById(R.id.btnReport);
         txtDescription = root.findViewById(R.id.txtDescription);
         txtNum = root.findViewById(R.id.txtNum);
         txtLocation = root.findViewById(R.id.txtLocation);
         swSheltered = root.findViewById(R.id.swSheltered);
-        btnReport = root.findViewById(R.id.btnReport);
 
         reportViewModel.getText().observe(this, s-> txtDescription.setHint("Description"));
         reportViewModel.getText().observe(this, s-> txtNum.setHint("No. of people"));
@@ -66,9 +76,9 @@ public class ReportFragment extends Fragment implements LocationListener {
         mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         reportViewModel.getText().observe(this, s -> btnGetLocation.setOnClickListener(this::onClick));
-        reportViewModel.getText().observe(this, s->btnSetLocation.setOnClickListener(this::onClick));
-        reportViewModel.getText().observe(this, s->btnReport.setOnClickListener(this::onClick));
-        reportViewModel.getText().observe(this, s->btnCamera.setOnClickListener(this::onClick));
+        reportViewModel.getText().observe(this, s-> btnSetLocation.setOnClickListener(this::onClick));
+        reportViewModel.getText().observe(this, s-> btnReport.setOnClickListener(this::onClick));
+        reportViewModel.getText().observe(this, s-> btnCamera.setOnClickListener(this::onClick));
         return root;
     }
 
@@ -129,13 +139,6 @@ public class ReportFragment extends Fragment implements LocationListener {
             ft.commit();
         } else if(v.getId() == R.id.btnGetLocation){
             if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED && checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    Activity#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                 return;
             }
@@ -145,7 +148,27 @@ public class ReportFragment extends Fragment implements LocationListener {
         }else if(v.getId() == R.id.btnCamera){
             // TODO
         }else if(v.getId() == R.id.btnReport){
-            // TODO
+            location = txtLocation.getText().toString();
+            people = txtNum.getText().toString();
+            if(swSheltered.isChecked()){
+                sheltered = "Yes";
+            }else{
+                sheltered = "No";
+            }
+            description =  txtDescription.getText().toString();
+            image = "test"; //TODO
+            if(description.isEmpty() || people.isEmpty() || location.length() <= LOCATION_CHECK){
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Empty fields")
+                        .setMessage("All fields must be filled in before sending your report.")
+                        .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
+                        .show();
+            }else{
+                if(MainActivity.sql.insertReport(location, people, sheltered, description, image)){
+                    Toast.makeText(getContext(), "Reported successfully", Toast.LENGTH_LONG).show();
+                }
+            }
+
         }
     }
 

@@ -20,116 +20,88 @@
 
     <Button
         android:id="@+id/btnGetLocation"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="26dp"
+        android:layout_width="320dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="38dp"
         android:text="QUICK LOCATION"
-        app:layout_constraintBottom_toTopOf="@+id/txtLocation"
-        app:layout_constraintEnd_toStartOf="@+id/btnSetLocation"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/btnSetLocation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_report" />
 
     <Button
         android:id="@+id/btnSetLocation"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="26dp"
+        android:layout_width="320dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginBottom="9dp"
         android:text="SET LOCATION"
         app:layout_constraintBottom_toTopOf="@+id/txtLocation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnGetLocation"
-        app:layout_constraintTop_toBottomOf="@+id/text_report"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/txtDescription"
-        android:layout_width="310dp"
-        android:layout_height="158dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="53dp"
-        android:layout_marginBottom="6dp"
+        android:layout_width="320dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="23dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/btnCamera"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="53dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginStart="177dp"
+        android:layout_marginBottom="28dp"
         android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/swSheltered"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txtNum"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescription"
+        app:layout_constraintBottom_toTopOf="@+id/txtNum"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <EditText
         android:id="@+id/txtNum"
-        android:layout_width="213dp"
+        android:layout_width="160dp"
         android:layout_height="45dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="17dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginBottom="24dp"
         android:ems="10"
         app:layout_constraintBottom_toTopOf="@+id/swSheltered"
-        app:layout_constraintEnd_toStartOf="@+id/btnCamera"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Switch
         android:id="@+id/swSheltered"
-        android:layout_width="305dp"
+        android:layout_width="160dp"
         android:layout_height="50dp"
-        android:layout_marginStart="62dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="58dp"
-        android:layout_marginBottom="204dp"
-        android:text="Sheltered"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCamera" />
+        android:layout_marginStart="112dp"
+        android:layout_marginBottom="16dp"
+        android:text="           Sheltered"
+        app:layout_constraintBottom_toTopOf="@+id/btnReport"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/txtLocation"
-        android:layout_width="295dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="66dp"
-        android:layout_marginBottom="12dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="47dp"
+        android:layout_marginBottom="19dp"
         android:text="Location:"
         app:layout_constraintBottom_toTopOf="@+id/txtDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGetLocation" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnReport"
-        android:layout_width="283dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="56dp"
+        android:layout_width="320dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginBottom="60dp"
         android:text="@string/report"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/swSheltered" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
