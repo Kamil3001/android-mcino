@@ -33,6 +33,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.MainActivity;
 import com.example.home.R;
+import com.example.home.ui.home.HomeFragment;
 import com.example.home.ui.location.LocationFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -199,6 +200,12 @@ public class ReportFragment extends Fragment implements LocationListener {
                     Log.i("SQL", MainActivity.sql.getLastEntry());
                     Log.i(TAG, "Removing captured image from external storage...");
                     new File(uriImage.getPath()).delete();
+                    Log.i(TAG, "Moving user back to home screen...");
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.nav_host_fragment, new HomeFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    main.getSupportActionBar().setDisplayShowHomeEnabled(true);
                 }
             }
 
