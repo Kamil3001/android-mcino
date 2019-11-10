@@ -34,4 +34,15 @@
         <item>Don\'t pressure anyone into going to a shelter, they may have had bad experiences and prefer the outside.</item>
         <item>Never approach a rough sleeper who\'s intoxicated. Intoxicated people can be unpredictable, especially those who are sleeping rough. Your safety comes first!</item>
     </string-array>
+    <string name="home_msg">
+        <![CDATA[
+        <body style="text-align:justify;color:black;font-size:120%">
+            <i style="font-size:140%">ho<b style="color:#00AEFF">me</b></i> is an app created by Computer Science students to allow members of the public to report rough sleepers. The app will allow
+            the relevant services to access the reports database to try and help the people reported. The app also provides tips on how to approach a rough sleeper alongside
+            contact information for local services so that one can still contact someone even without internet access. Before submitting any reports, please read more about
+            the app in Tips, FAQs and Privacy sections. Submissions ARE anonymous. To report a rough sleeper, simply press the <b>Report</b> button below.
+        </body>
+        ]]>
+    </string>
+    <string name="homeless_flag_desc">International Flag for the Homeless and Poor</string>
 </resources>
