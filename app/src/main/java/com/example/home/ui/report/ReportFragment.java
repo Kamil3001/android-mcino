@@ -175,6 +175,7 @@ public class ReportFragment extends Fragment implements LocationListener {
             }
 
         }else if(v.getId() == R.id.btnReport){
+            Log.i(TAG, "Checking values...");
             location = txtLocation.getText().toString();
             people = txtNum.getText().toString();
             if(swSheltered.isChecked()){
@@ -197,9 +198,13 @@ public class ReportFragment extends Fragment implements LocationListener {
                         .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
                         .show();
             }else{
+                Log.i(TAG, "Values are not null...");
+                Log.i(TAG, "Sending values to DB...");
                 if(MainActivity.sql.insertReport(location, people, sheltered, description, bmImage)){
                     Toast.makeText(getContext(), "Reported successfully", Toast.LENGTH_LONG).show();
                     Log.i("SQL", MainActivity.sql.getLastEntry());
+                    Log.i(TAG, "Removing captured image from external storage...");
+                    new File(uriImage.getPath()).delete();
                 }
             }
 
