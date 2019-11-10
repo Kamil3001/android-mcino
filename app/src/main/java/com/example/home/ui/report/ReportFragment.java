@@ -205,11 +205,7 @@ public class ReportFragment extends Fragment implements LocationListener {
                         new File(uriImage.getPath()).delete();
                     }
                     Log.i("REPORT", "Moving user back to home screen...");
-                    getFragmentManager().beginTransaction()
-                            .replace(R.id.nav_host_fragment, new HomeFragment())
-                            .addToBackStack(null)
-                            .commit();
-                    main.getSupportActionBar().setDisplayShowHomeEnabled(true);
+                    main.onBackPressed();
                 }
             }
 
