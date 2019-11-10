@@ -119,7 +119,7 @@ public class ReportFragment extends Fragment implements LocationListener {
     }
 
     public void onResume() {
-        main.checkNav(R.id.navigation_home);
+        main.uncheckNav();
         main.getSupportActionBar().setTitle(R.string.title_report);
         super.onResume();
     }

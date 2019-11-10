@@ -64,7 +64,7 @@ public class DBHelper extends SQLiteOpenHelper {
         try{
             int check = image.getWidth(); // if no image was captured, this should throw an exception
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            image.compress(Bitmap.CompressFormat.JPEG, 50, baos);
             byte[] b = baos.toByteArray();
             captured = true;
             cv.put(REPORTS_COLUMN_IMAGE, Base64.encode(b, Base64.DEFAULT));
