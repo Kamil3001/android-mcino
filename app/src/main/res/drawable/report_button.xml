@@ -5,7 +5,7 @@
             <solid android:color="@android:color/darker_gray" />
             <size android:width="60dp" android:height="30dp" />
             <corners android:radius="500dp" />
-            <gradient android:startColor="#000058" android:centerColor="#00007C" android:endColor="#0000C4" android:angle="-90" />
+            <gradient android:startColor="#00AEFF" android:centerColor="#0091D2" android:endColor="#017EB4" android:angle="-90" />
         </shape>
     </item>
     <item android:state_pressed="true">
@@ -13,7 +13,7 @@
             <solid android:color="@android:color/darker_gray" />
             <size android:width="60dp" android:height="30dp" />
             <corners android:radius="500dp" />
-            <gradient android:startColor="#580000" android:centerColor="#7C0000" android:endColor="#C40000" android:angle="-90" />
+            <gradient android:startColor="#C40000" android:centerColor="#9B0000" android:endColor="#7E0000" android:angle="-90" />
         </shape>
     </item>
 </selector>

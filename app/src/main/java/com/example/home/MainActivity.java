@@ -43,9 +43,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
         ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setLogo(R.drawable.home_logo);
+        actionBar.setLogo(R.drawable.padded_logo);
         actionBar.setDisplayUseLogoEnabled(true);
 
         myDialog = new Dialog(this);
