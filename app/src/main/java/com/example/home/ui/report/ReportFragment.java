@@ -193,20 +193,16 @@ public class ReportFragment extends Fragment implements LocationListener {
                         .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
                         .show();
             }
-            else if(bmImage == null){
-                new AlertDialog.Builder(getContext())
-                        .setTitle("Capture image")
-                        .setMessage("Please take a picture of the rough sleeper as proof.")
-                        .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
-                        .show();
-            }else{
-                Log.i(TAG, "Values are not null...");
+            else{
+                Log.i(TAG, "All good...");
                 Log.i(TAG, "Sending values to DB...");
                 if(MainActivity.sql.insertReport(location, people, sheltered, description, bmImage)){
                     Toast.makeText(getContext(), "Reported successfully", Toast.LENGTH_LONG).show();
                     Log.i("SQL", MainActivity.sql.getLastEntry());
-                    Log.i(TAG, "Removing captured image from external storage...");
-                    new File(uriImage.getPath()).delete();
+                    if(uriImage != null) {
+                        Log.i(TAG, "Removing captured image from external storage...");
+                        new File(uriImage.getPath()).delete();
+                    }
                     Log.i(TAG, "Moving user back to home screen...");
                     getFragmentManager().beginTransaction()
                             .replace(R.id.nav_host_fragment, new HomeFragment())
