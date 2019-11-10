@@ -133,6 +133,7 @@ public class ReportFragment extends Fragment implements LocationListener {
 
     private void onClick(View v){
         if(v.getId() == R.id.btnSetLocation){
+            Log.i("REPORT", "Moving to location fragment...");
             FragmentTransaction ft = this.getFragmentManager().beginTransaction();
             LocationFragment locationFragment = new LocationFragment();
             locationFragment.setTargetFragment(ReportFragment.this, REQUEST_PASS_DATA);
@@ -157,20 +158,20 @@ public class ReportFragment extends Fragment implements LocationListener {
             try {
                 photo =  File.createTempFile(String.valueOf(Calendar.getInstance().getTime()), ".jpg", Environment.getExternalStorageDirectory());
                 uriImage = Uri.fromFile(photo);
-                Log.v(TAG, "Created: " + photo.getAbsolutePath());
+                Log.v("REPORT", "Created: " + photo.getAbsolutePath());
                 Intent intentCamera = new Intent("android.media.action.IMAGE_CAPTURE");
                 intentCamera.putExtra(MediaStore.EXTRA_OUTPUT,uriImage);
-                Log.i(TAG, "Loading camera..");
+                Log.i("REPORT", "Loading camera..");
                 // Needed for VM use
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
                 startActivityForResult(intentCamera, REQUEST_TAKE_PHOTO);
             } catch (IOException e) {
-                Log.d(TAG, "Could not create temp file:", e);
+                Log.d("REPORT", "Could not create temp file:", e);
             }
 
         }else if(v.getId() == R.id.btnReport){
-            Log.i(TAG, "Checking values...");
+            Log.i("REPORT", "Checking values...");
             location = txtLocation.getText().toString();
             people = txtNum.getText().toString();
             if(swSheltered.isChecked()){
@@ -200,10 +201,10 @@ public class ReportFragment extends Fragment implements LocationListener {
                     Toast.makeText(getContext(), "Reported successfully", Toast.LENGTH_LONG).show();
                     Log.i("SQL", MainActivity.sql.getLastEntry());
                     if(uriImage != null) {
-                        Log.i(TAG, "Removing captured image from external storage...");
+                        Log.i("REPORT", "Removing captured image from external storage...");
                         new File(uriImage.getPath()).delete();
                     }
-                    Log.i(TAG, "Moving user back to home screen...");
+                    Log.i("REPORT", "Moving user back to home screen...");
                     getFragmentManager().beginTransaction()
                             .replace(R.id.nav_host_fragment, new HomeFragment())
                             .addToBackStack(null)
@@ -219,16 +220,16 @@ public class ReportFragment extends Fragment implements LocationListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            Log.v(TAG, "RESULT_OKAY");
+            Log.v("REPORT", "RESULT_OKAY");
             if (requestCode == REQUEST_PASS_DATA) {
-                Log.i(TAG, "REQUEST_PASS_DATA");
+                Log.i("REPORT", "REQUEST_PASS_DATA");
                 reportedLocation = data.getStringExtra("location");
                 txtLocation.setText(reportedLocation);
             }
             if(requestCode == REQUEST_TAKE_PHOTO){
-                Log.i(TAG, "REQUEST_TAKE_PHOTO");
+                Log.i("REPORT", "REQUEST_TAKE_PHOTO");
                 bmImage = grabImage(); // grabbing captured image stored in temp file
-                Log.i(TAG, "Success grabbing image");
+                Log.i("REPORT", "Success grabbing image");
                 btnCamera.setEnabled(false);
                 btnCamera.setImageResource(R.drawable.tick);
             }
@@ -245,7 +246,7 @@ public class ReportFragment extends Fragment implements LocationListener {
         catch (Exception e)
         {
             Toast.makeText(getContext(), "Failed to upload captured image", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Failed to load captured image", e);
+            Log.d("REPORT", "Failed to load captured image", e);
             return null;
         }
     }
