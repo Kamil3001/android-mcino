@@ -13,10 +13,51 @@ import android.util.Base64;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
-
-import static android.content.ContentValues.TAG;
+import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
+
+    public class Entry{
+
+        private String latitude;
+        private String longitude;
+        private int people;
+        private String sheltered;
+        private String description;
+
+        public Entry(String location, int people, String sheltered, String description){
+            this.latitude = location.split(",")[0];
+            this.longitude = location.split(",")[1];
+            this.people = people;
+            this.sheltered = sheltered;
+            this.description = description;
+        }
+
+        public String getLatitude() {
+            return latitude;
+        }
+
+        public String getLongitude(){
+            return longitude;
+        }
+
+        public int getPeople() {
+            return people;
+        }
+
+        public String getSheltered() {
+            return sheltered;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+
+
+
+
+    }
 
     public static final String DATABASE_NAME = "HOME";
     public static final String REPORTS_TABLE_NAME = "REPORTS";
@@ -28,6 +69,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String REPORTS_COLUMN_IMAGE = "IMAGE";
 
     private boolean captured = false;
+    private ArrayList<Entry> entries = new ArrayList<>();
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME , null, 1);
@@ -39,7 +81,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + REPORTS_TABLE_NAME +
                         " (" + REPORTS_COLUMN_ID + " INTEGER PRIMARY KEY, " +
                         REPORTS_COLUMN_LOCATION + " TEXT, " +
-                        REPORTS_COLUMN_PEOPLE + " TEXT, " +
+                        REPORTS_COLUMN_PEOPLE + " INT, " +
                         REPORTS_COLUMN_SHELTERED + " TEXT, " +
                         REPORTS_COLUMN_DESCRIPTION + " TEXT, " +
                         REPORTS_COLUMN_IMAGE + " TEXT)"
@@ -52,7 +94,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public boolean insertReport(String location, String people, String sheltered, String description, Bitmap image){
+    public boolean insertReport(String location, int people, String sheltered, String description, Bitmap image){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -75,9 +117,32 @@ public class DBHelper extends SQLiteOpenHelper {
             cv.put(REPORTS_COLUMN_IMAGE, "-");
         }
 
-
         db.insert(REPORTS_TABLE_NAME, null, cv);
+        //entries.add(new Entry(location, people, sheltered, description));
+
         return true;
+    }
+
+    public ArrayList<Entry> getAllEntries(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        entries = new ArrayList<>();
+        Cursor cur = db.rawQuery("SELECT * FROM " + REPORTS_TABLE_NAME,null);
+        CursorWindow cw = new CursorWindow("test", 5000000);
+        AbstractWindowedCursor ac = (AbstractWindowedCursor) cur;
+        ac.setWindow(cw);
+        try {
+            ac.moveToFirst();
+            while(!ac.isAfterLast()){
+                entries.add(new Entry(ac.getString(ac.getColumnIndex(REPORTS_COLUMN_LOCATION)),
+                                      ac.getInt(ac.getColumnIndex(REPORTS_COLUMN_PEOPLE)),
+                                      ac.getString(ac.getColumnIndex(REPORTS_COLUMN_SHELTERED)),
+                                      ac.getString(ac.getColumnIndex(REPORTS_COLUMN_DESCRIPTION))));
+                ac.moveToNext();
+            }
+        } catch (SQLiteBlobTooBigException expected) {
+            Log.v("SQL", expected.getMessage());
+        }
+        return entries;
     }
 
     public String getLastEntry(){
@@ -94,7 +159,7 @@ public class DBHelper extends SQLiteOpenHelper {
         try {
             ac.moveToNext();
         } catch (SQLiteBlobTooBigException expected) {
-            Log.v(TAG, expected.getMessage());
+            Log.v("SQL", expected.getMessage());
         }
         StringBuilder sb = new StringBuilder();
         sb.append(ac.getString(ac.getColumnIndex(REPORTS_COLUMN_ID)));
@@ -113,7 +178,20 @@ public class DBHelper extends SQLiteOpenHelper {
         }else{
             sb.append(ac.getString(ac.getColumnIndex(REPORTS_COLUMN_IMAGE)));
         }
-
         return sb.toString();
+    }
+
+    public boolean hasEntries(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT count(*) FROM " + REPORTS_TABLE_NAME,null);
+        CursorWindow cw = new CursorWindow("test", 5000000);
+        AbstractWindowedCursor ac = (AbstractWindowedCursor) cursor;
+        ac.setWindow(cw);
+        try {
+            ac.moveToNext();
+        } catch (SQLiteBlobTooBigException expected) {
+            Log.v("SQL", expected.getMessage());
+        }
+        return ac.getInt(0) > 0;
     }
 }
