@@ -177,7 +177,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }else{
             sb.append(ac.getString(ac.getColumnIndex(REPORTS_COLUMN_IMAGE)));
         }
-
         return sb.toString();
     }
 

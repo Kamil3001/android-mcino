@@ -28,12 +28,7 @@ public class PrivacyFragment extends Fragment {
         View root = inflater.inflate(R.layout.privacy_fragment, container, false);
         final TextView textView = root.findViewById(R.id.text_privacy
         );
-        privacyViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        privacyViewModel.getText().observe(this, s -> textView.setText(s));
 
         MainActivity main = (MainActivity) getActivity();
         main.getSupportActionBar().setTitle(R.string.title_privacy);

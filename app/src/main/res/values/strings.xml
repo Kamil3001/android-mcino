@@ -46,4 +46,16 @@
         ]]>
     </string>
     <string name="homeless_flag_desc">International Flag for the Homeless and Poor</string>
+    <string-array name="stats">
+        <item>There were 10,397 people homeless in the week of September 23 – 29 September 2019 across Ireland</item>
+        <item>The number of homeless families has increased by 354% since September 2014</item>
+        <item>More than one in three people in emergency accommodation is a child.</item>
+        <item>In April 2019, the official rough sleeping count confirmed 128 people sleeping rough in Dublin, with an additional number in the Night Café, without a place to sleep.</item>
+        <item>In the last three years, there has been a rapid increase in the number of families becoming homeless, and in September 2019, there were 1,756 families accessing emergency accommodation. This includes 3,873 children. </item>
+        <item>Most of the families becoming homeless have never experienced homelessness before and never thought this could happen to them.</item>
+        <item>In September 2019, there were 3,873 children in emergency homeless accommodation with their families.</item>
+        <item>The most recent official assessment of social housing need was published in September 2018 and showed 71,858 households qualified for social housing</item>
+        <item>During 2018 alone, Focus Ireland services across the country provided support to over 15,500 people.</item>
+        <item>The government has made the decision to cut social housing spending by 72% between 2008 and 2012 (€1.38bn to €390m), but short term measures such as Rent Supplement levels, rising rents and reduced welfare rates for under-25s have not been tackled either.</item>
+    </string-array>
 </resources>
