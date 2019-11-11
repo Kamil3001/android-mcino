@@ -33,7 +33,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.MainActivity;
 import com.example.home.R;
-import com.example.home.ui.home.HomeFragment;
 import com.example.home.ui.location.LocationFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -41,7 +40,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
-import static android.content.ContentValues.TAG;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 
 public class ReportFragment extends Fragment implements LocationListener {

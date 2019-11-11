@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.home.MainActivity;
 import com.example.home.R;
 
 public class ContactsFragment extends Fragment {
@@ -31,5 +32,11 @@ public class ContactsFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        super.onResume();
     }
 }

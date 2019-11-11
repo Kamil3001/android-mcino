@@ -6,12 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.MainActivity;
@@ -40,7 +37,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         MainActivity main = (MainActivity) getActivity();
         main.checkNav(R.id.navigation_home);
-        main.getSupportActionBar().setTitle(R.string.title_home);
         main.getSupportActionBar().setDisplayShowHomeEnabled(true);
         super.onResume();
     }
