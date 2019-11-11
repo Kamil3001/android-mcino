@@ -36,6 +36,12 @@
         tools:layout="@layout/report_fragment" />
 
     <fragment
+        android:id="@+id/navigation_yourreports"
+        android:name="com.example.home.ui.your_reports.YourReportsFragment"
+        android:label="@string/title_yourreports"
+        tools:layout="@layout/your_reports_fragment" />
+
+    <fragment
         android:id="@+id/navigation_stats"
         android:name="com.example.home.ui.stats.StatsFragment"
         android:label="@string/title_stats"
