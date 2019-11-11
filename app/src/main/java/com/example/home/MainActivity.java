@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView navView;
     public static DBHelper sql;
+
     Dialog myDialog;
     String phoneNo = "087-241-FAKE"; //note FAKE will be translated using numpad by phone
     String email = "home-rough-sleepers@fake.com";
