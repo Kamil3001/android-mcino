@@ -73,13 +73,6 @@ public class LocationFragment extends Fragment implements LocationListener {
 
         locationViewModel.getText().observe(this, s->btnMyLocation.setOnClickListener(view -> {
             if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED && checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    Activity#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                 return;
             }
