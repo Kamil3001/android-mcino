@@ -45,4 +45,29 @@
         ]]>
     </string>
     <string name="homeless_flag_desc">International Flag for the Homeless and Poor</string>
+    <string-array name="faq">
+        <item>How do I submit a report?</item>
+        <item>Go to the home screen and press the big blue report button then fill out the form.</item>
+
+        <item>What happens to my report?</item>
+        <item>Your report is stored locally on your device, and if you have an internet connection it will also be submitted to a remote database.</item>
+
+        <item>I want to help the person alongside the report, how do I go about it?</item>
+        <item>Go to the Tips tab and read the Do\'s and Don\'ts of dealing with rough sleepers, that should establish a guideline for you.</item>
+
+        <item>There is no contact information for my area but I know there are services nearby, is there a reason for this?</item>
+        <item>Contact information is continuously updated. If you wish to help us include as many services as possible, contact us with the information.</item>
+
+        <item>The app is not working correctly, what do I do?</item>
+        <item>Contact us using the details provided in Contact Us section of the More tab outlining the issue you are having with the app.</item>
+
+        <item>Can I get access to the entire database of reports made by others?</item>
+        <item>For safety reasons, only verified services have access to the database of reports. If you work for a service that could benefit from the database please contact us to begin a verification process.</item>
+
+        <item>I don\'t have internet while out, how can I report a rough sleeper?</item>
+        <item>One way is to use the contact information provided in the Contacts tab. You can also create report drafts that you can submit once you have internet.</item>
+
+        <item>Can I share my reports with friends?</item>
+        <item>The current version of the app does not support sharing of reports. This feature is in the works however.</item>
+    </string-array>
 </resources>
