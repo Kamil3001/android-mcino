@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.MainActivity;
 import com.example.home.R;
+
+import java.util.Objects;
 
 public class PrivacyFragment extends Fragment {
 
@@ -26,14 +30,16 @@ public class PrivacyFragment extends Fragment {
         privacyViewModel =
                 ViewModelProviders.of(this).get(PrivacyViewModel.class);
         View root = inflater.inflate(R.layout.privacy_fragment, container, false);
-        final TextView textView = root.findViewById(R.id.text_privacy
+        final ListView listView = root.findViewById(R.id.privacy);
+        String[] privacy = getResources().getStringArray(R.array.privacy);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                Objects.requireNonNull(getContext()),
+                android.R.layout.simple_list_item_1,
+                privacy
         );
-        privacyViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
+        listView.setAdapter(arrayAdapter);
 
         MainActivity main = (MainActivity) getActivity();
         main.getSupportActionBar().setTitle(R.string.title_privacy);

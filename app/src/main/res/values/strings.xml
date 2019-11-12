@@ -70,4 +70,14 @@
         <item>Can I share my reports with friends?</item>
         <item>The current version of the app does not support sharing of reports. This feature is in the works however.</item>
     </string-array>
+    <string-array name="privacy">
+        <item>All reports are anonymous unless you give names in the description section of your report.</item>
+        <item>By submitting a report, you agree that any information you provide can be used by third parties to aid the person/people the report pertains to.</item>
+        <item>The app only submits data within the report to the database, no other data is submitted.</item>
+        <item>Any photos submitted will be provided to the third party services, therefore please refrain from including faces in the photo. If you are unsure about the validity of your photo, don\'t include it, instead provide a description of the area.</item>
+        <item>The app uses location services to aid in submitting reports, however the location can be manually changed and the app will never store a location unless it is submitted in a report.</item>
+        <item>hoME provides access to its database only to verified services, the application or its owners do not assume responsibility over data submitted by its users.</item>
+        <item>For any other privacy concerns use the Contact Us section to make inquiries.</item>
+        <item></item>
+    </string-array>
 </resources>
