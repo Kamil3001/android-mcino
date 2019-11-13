@@ -82,9 +82,9 @@
         <item></item>
     </string-array>
     <string name="my_location_btn">My Location</string>
-    <string name="specific_location_btn">Specific Location</string>
+    <string name="specific_location_btn">Specify Location</string>
     <string name="desc_hint">Description&#8230;</string>
     <string name="people_cnt_hint">No. of people</string>
-    <string name="shelterSwitch">Is the person or people under a roof?\t</string>
+    <string name="shelterSwitch">Is the person or people under a roof?</string>
     <string name="submit">Submit</string>
 </resources>

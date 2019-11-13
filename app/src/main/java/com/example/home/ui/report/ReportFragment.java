@@ -7,7 +7,10 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -27,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -56,7 +60,7 @@ public class ReportFragment extends Fragment implements LocationListener {
     private FloatingActionButton btnCamera;
     private EditText txtDescription, txtNum;
     private TextView txtLocation;
-    private Switch swSheltered;
+    private SwitchCompat swSheltered;
     private LocationManager mLocationManager;
     private String reportedLocation;
 

@@ -5,41 +5,39 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="10dp">
 
-
-    <TextView
-        android:id="@+id/txtLocation"
+    <LinearLayout
+        android:id="@+id/locationItems"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/title_location"
-        android:gravity="center_vertical"
-        android:textAlignment="center"
-        android:textSize="28sp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/txtDescription">
 
-    <LinearLayout
-        android:id="@+id/locationBtns"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txtLocation"
-        android:weightSum="2">
+        <TextView
+            android:id="@+id/txtLocation"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="@string/title_location"
+            android:gravity="center_vertical"
+            android:background="#E6E6E6"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+
+            android:paddingHorizontal="3dp"
+            android:textSize="24sp"
+            android:textAlignment="center"/>
 
         <Button
             android:id="@+id/btnGetLocation"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="55dp"
-            android:text="@string/my_location_btn"/>
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/my_location_btn"/>
 
         <Button
             android:id="@+id/btnSetLocation"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="55dp"
-            android:text="@string/specific_location_btn"/>
-
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/specific_location_btn"/>
 
     </LinearLayout>
 
@@ -58,8 +56,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/locationBtns"
-        app:layout_constraintVertical_bias="0.15"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3"/>
 
     <LinearLayout
         android:id="@+id/cameraNnum"
@@ -93,21 +91,32 @@
 
     </LinearLayout>
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/swSheltered"
+        android:theme="@style/MySwitch"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
+        app:switchPadding="20dp"
         android:text="@string/shelterSwitch"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@id/cameraNnum"
         app:layout_constraintBottom_toTopOf="@id/btnReport"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnReport"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
+        android:padding="10dp"
         android:text="@string/submit"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:textSize="20sp"
+        android:ems="10"
+        android:textColor="@color/white"
+        android:background="@drawable/submit_btn"
+        app:layout_constraintTop_toBottomOf="@id/swSheltered"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
