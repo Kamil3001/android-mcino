@@ -9,6 +9,7 @@
     <string name="title_faq">FAQ</string>
     <string name="title_privacy">Privacy</string>
     <string name="title_contactus">Contact Us</string>
+    <string name="title_location">Location</string>
     <string name="copyright_notice">Copyright © 2019 hoME | All rights reserved</string>
     <string name="report">Report</string>
     <string name="contact_phone">Phone: 087–241-FAKE</string>
@@ -80,4 +81,10 @@
         <item>For any other privacy concerns use the Contact Us section to make inquiries.</item>
         <item></item>
     </string-array>
+    <string name="my_location_btn">My Location</string>
+    <string name="specific_location_btn">Specify Location</string>
+    <string name="desc_hint">Description&#8230;</string>
+    <string name="people_cnt_hint">No. of people</string>
+    <string name="shelterSwitch">Is the person or people under a roof?</string>
+    <string name="submit">Submit</string>
 </resources>

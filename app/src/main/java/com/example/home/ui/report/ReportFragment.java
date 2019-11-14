@@ -1,12 +1,16 @@
 package com.example.home.ui.report;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -26,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -47,14 +52,15 @@ public class ReportFragment extends Fragment implements LocationListener {
     private static final int RESULT_OK = -1;
     private static final int REQUEST_PASS_DATA = 1;
     private static final int REQUEST_TAKE_PHOTO = 2;
-    private static final int REQUEST_PERMISSIONS = 1;
+    private static final int REQUEST_PERMISSION_LOCATION = 1;
+    private static final int REQUEST_PERMISSION_STORAGE = 2;
     private ReportViewModel reportViewModel;
 
     private Button btnGetLocation, btnSetLocation, btnReport;
     private FloatingActionButton btnCamera;
     private EditText txtDescription, txtNum;
     private TextView txtLocation;
-    private Switch swSheltered;
+    private SwitchCompat swSheltered;
     private LocationManager mLocationManager;
     private String reportedLocation;
 
@@ -62,7 +68,8 @@ public class ReportFragment extends Fragment implements LocationListener {
     private Bitmap bmImage;
 
 
-    private String location, people, description, sheltered, image;
+    private String location, description, sheltered;
+    private int people;
 
     private MainActivity main;
 
@@ -85,28 +92,61 @@ public class ReportFragment extends Fragment implements LocationListener {
         txtLocation = root.findViewById(R.id.txtLocation);
         swSheltered = root.findViewById(R.id.swSheltered);
 
-        reportViewModel.getText().observe(this, s-> txtDescription.setHint("Description"));
-        reportViewModel.getText().observe(this, s-> txtNum.setHint("No. of people"));
-
         mLocationManager = (LocationManager) main.getSystemService(Context.LOCATION_SERVICE);
 
         reportViewModel.getText().observe(this, s -> btnGetLocation.setOnClickListener(this::onClick));
         reportViewModel.getText().observe(this, s-> btnSetLocation.setOnClickListener(this::onClick));
         reportViewModel.getText().observe(this, s-> btnReport.setOnClickListener(this::onClick));
         reportViewModel.getText().observe(this, s-> btnCamera.setOnClickListener(this::onClick));
+
+        if (checkSelfPermission(main, Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED && checkSelfPermission(main, Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_LOCATION);
+        }
+
+        if (checkSelfPermission(main, Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED || checkSelfPermission(main, Manifest.permission.ACCESS_COARSE_LOCATION) == PermissionChecker.PERMISSION_GRANTED) {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 500, this);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 500, this);
+        }
+
         return root;
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case 1: {
+            case REQUEST_PERMISSION_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getContext(), "Permission granted", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(main, "Permission denied", Toast.LENGTH_SHORT).show();
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 500, this);
+                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 500, this);
                 }
+//                else {
+//                    Toast.makeText(main, "Location permission denied", Toast.LENGTH_SHORT).show();
+//                }
+                break;
+            }
+            case REQUEST_PERMISSION_STORAGE: {
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    File photo = null;
+                    try {
+                        photo =  File.createTempFile(String.valueOf(Calendar.getInstance().getTime()), ".jpg", Environment.getExternalStorageDirectory());
+                        uriImage = Uri.fromFile(photo);
+                        Log.v("REPORT", "Created: " + photo.getAbsolutePath());
+                        Intent intentCamera = new Intent("android.media.action.IMAGE_CAPTURE");
+                        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT,uriImage);
+                        Log.i("REPORT", "Loading camera..");
+                        // Needed for VM use
+                        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                        StrictMode.setVmPolicy(builder.build());
+                        startActivityForResult(intentCamera, REQUEST_TAKE_PHOTO);
+                    } catch (IOException e) {
+                        Log.d("REPORT", "Could not create temp file:", e);
+                    }
+                }
+//                else{
+//                    Toast.makeText(main, "Writing to storage permission denied", Toast.LENGTH_SHORT).show();
+//                }
             }
         }
     }
@@ -125,53 +165,68 @@ public class ReportFragment extends Fragment implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        reportedLocation = location.getLatitude() +","+location.getLongitude();
+        reportedLocation = location.getLatitude() +", "+location.getLongitude();
         txtLocation.setText(reportedLocation);
     }
 
     private void onClick(View v){
         if(v.getId() == R.id.btnSetLocation){
-            Log.i("REPORT", "Moving to location fragment...");
-            FragmentTransaction ft = this.getFragmentManager().beginTransaction();
-            LocationFragment locationFragment = new LocationFragment();
-            locationFragment.setTargetFragment(ReportFragment.this, REQUEST_PASS_DATA);
-            ft.addToBackStack(locationFragment.getClass().getName());
-            ft.add(R.id.nav_host_fragment, locationFragment, "location");
-            ft.commit();
-        } else if(v.getId() == R.id.btnGetLocation){
             if (checkSelfPermission(main, Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED && checkSelfPermission(main, Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
-                return;
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_LOCATION);
             }
-            Toast.makeText(main, "Getting your location", Toast.LENGTH_LONG).show();
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 500, this);
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 500, this);
-        }else if(v.getId() == R.id.btnCamera){
+            else {
+                Log.i("REPORT", "Moving to location fragment...");
+                FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+                LocationFragment locationFragment = new LocationFragment();
+                locationFragment.setTargetFragment(ReportFragment.this, REQUEST_PASS_DATA);
+                ft.addToBackStack(locationFragment.getClass().getName());
+                ft.add(R.id.nav_host_fragment, locationFragment, "location");
+                ft.commit();
+            }
+        }
+        else if(v.getId() == R.id.btnGetLocation){
+            if (checkSelfPermission(main, Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED && checkSelfPermission(main, Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_LOCATION);
+            }
+            else {
+//                Toast.makeText(main, "Getting your location", Toast.LENGTH_LONG).show();
+                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 500, this);
+                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 500, this);
+            }
+        }
+        else if(v.getId() == R.id.btnCamera){
             if (checkSelfPermission(main, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED){
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSIONS);
-                return;
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_STORAGE);
+            }
+            else{
+                File photo = null;
+                try {
+                    photo =  File.createTempFile(String.valueOf(Calendar.getInstance().getTime()), ".jpg", Environment.getExternalStorageDirectory());
+                    uriImage = Uri.fromFile(photo);
+                    Log.v("REPORT", "Created: " + photo.getAbsolutePath());
+                    Intent intentCamera = new Intent("android.media.action.IMAGE_CAPTURE");
+                    intentCamera.putExtra(MediaStore.EXTRA_OUTPUT,uriImage);
+                    Log.i("REPORT", "Loading camera..");
+                    // Needed for VM use
+                    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                    StrictMode.setVmPolicy(builder.build());
+                    startActivityForResult(intentCamera, REQUEST_TAKE_PHOTO);
+                } catch (IOException e) {
+                    Log.d("REPORT", "Could not create temp file:", e);
+                }
             }
 
-            File photo = null;
-            try {
-                photo =  File.createTempFile(String.valueOf(Calendar.getInstance().getTime()), ".jpg", Environment.getExternalStorageDirectory());
-                uriImage = Uri.fromFile(photo);
-                Log.v("REPORT", "Created: " + photo.getAbsolutePath());
-                Intent intentCamera = new Intent("android.media.action.IMAGE_CAPTURE");
-                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT,uriImage);
-                Log.i("REPORT", "Loading camera..");
-                // Needed for VM use
-                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                StrictMode.setVmPolicy(builder.build());
-                startActivityForResult(intentCamera, REQUEST_TAKE_PHOTO);
-            } catch (IOException e) {
-                Log.d("REPORT", "Could not create temp file:", e);
-            }
-
-        }else if(v.getId() == R.id.btnReport){
+        }
+        else if(v.getId() == R.id.btnReport){
             Log.i("REPORT", "Checking values...");
             location = txtLocation.getText().toString();
-            people = txtNum.getText().toString();
+            try {
+                people = Integer.valueOf(txtNum.getText().toString());
+            }catch(NumberFormatException e){
+                Log.d("REPORT", "Non-integer value entered for number of people...");
+                Toast.makeText(main, "Invalid value entered for number of people", Toast.LENGTH_LONG).show();
+                return;
+            }
             if(swSheltered.isChecked()){
                 sheltered = "Yes";
             }else{
@@ -185,7 +240,7 @@ public class ReportFragment extends Fragment implements LocationListener {
                         .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
                         .show();
             }
-            else if(description.isEmpty() || people.isEmpty()){
+            else if(description.isEmpty() || people <= 0){
                 new AlertDialog.Builder(getContext())
                         .setTitle("Empty fields")
                         .setMessage("All fields must be filled in before sending your report.")
@@ -206,7 +261,6 @@ public class ReportFragment extends Fragment implements LocationListener {
                     main.onBackPressed();
                 }
             }
-
         }
     }
 
