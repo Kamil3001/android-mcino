@@ -183,17 +183,17 @@ public class DBHelper extends SQLiteOpenHelper {
         return sb.toString();
     }
 
-//    public boolean hasEntries(){
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.rawQuery("SELECT count(*) FROM " + REPORTS_TABLE_NAME,null);
-//        CursorWindow cw = new CursorWindow("test", 5000000);
-//        AbstractWindowedCursor ac = (AbstractWindowedCursor) cursor;
-//        ac.setWindow(cw);
-//        try {
-//            ac.moveToNext();
-//        } catch (SQLiteBlobTooBigException expected) {
-//            Log.v("SQL", expected.getMessage());
-//        }
-//        return ac.getInt(0) > 0;
-//    }
+    public boolean hasEntries(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT count(*) FROM " + REPORTS_TABLE_NAME,null);
+        CursorWindow cw = new CursorWindow("test", 5000000);
+        AbstractWindowedCursor ac = (AbstractWindowedCursor) cursor;
+        ac.setWindow(cw);
+        try {
+            ac.moveToNext();
+        } catch (SQLiteBlobTooBigException expected) {
+            Log.v("SQL", expected.getMessage());
+        }
+        return ac.getInt(0) > 0;
+    }
 }
