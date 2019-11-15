@@ -15,9 +15,13 @@ import com.example.home.ui.faq.FaqFragment;
 import com.example.home.ui.privacy.PrivacyFragment;
 import com.example.home.ui.stats.StatsFragment;
 
-public class MoreFragment extends Fragment implements View.OnClickListener {
+/*
 
-    private MoreViewModel moreViewModel;
+Todo: Describe class here then comment code bits
+
+ */
+
+public class MoreFragment extends Fragment implements View.OnClickListener {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

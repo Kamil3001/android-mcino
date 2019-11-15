@@ -1,39 +1,31 @@
 package com.example.home.ui.faq;
 
-import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.home.MainActivity;
 import com.example.home.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+/*
+
+Todo: Describe class here then comment code bits
+
+ */
 
 public class FaqFragment extends Fragment {
-
-    private FaqViewModel faqViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        faqViewModel =
-                ViewModelProviders.of(this).get(FaqViewModel.class);
         View root = inflater.inflate(R.layout.faq_fragment, container, false);
 
         MainActivity main = (MainActivity) getActivity();

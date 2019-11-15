@@ -10,21 +10,22 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.MainActivity;
 import com.example.home.R;
 
 import java.util.Objects;
 
-public class TipsFragment extends Fragment {
+/*
 
-    private TipsViewModel tipsViewModel;
+Todo: Describe class here then comment code bits
+
+ */
+
+public class TipsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        tipsViewModel =
-                ViewModelProviders.of(this).get(TipsViewModel.class);
         View root = inflater.inflate(R.layout.tips_fragment, container, false);
         final ListView dosListView = root.findViewById(R.id.dos_list);
         final ListView dontsListView = root.findViewById(R.id.donts_list);
@@ -47,7 +48,6 @@ public class TipsFragment extends Fragment {
         );
 
         dontsListView.setAdapter(arrayAdapter);
-//        setListHeight(dontsListView);
 
 
         return root;

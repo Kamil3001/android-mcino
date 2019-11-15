@@ -14,24 +14,21 @@ import com.example.home.R;
 
 import java.util.List;
 
-
 /*
+
+Todo: Describe class here then comment code bits
 Implemented following this example: https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
+
  */
 public class FaqAdapter extends ArrayAdapter<QA> {
-
-    private List<QA> faq;
-    Context mContext;
 
     private static class ViewHolder {
         TextView question;
         TextView answer;
     }
 
-    public FaqAdapter(List<QA> faq, Context context) {
+    FaqAdapter(List<QA> faq, Context context) {
         super(context, R.layout.faq_row_item, faq);
-        this.faq = faq;
-        mContext = context;
     }
 
     @NonNull
@@ -57,13 +54,20 @@ public class FaqAdapter extends ArrayAdapter<QA> {
             result = convertView;
         }
 
+        assert qa != null;
         viewHolder.question.setText(qa.question);
         viewHolder.answer.setText(qa.answer);
 
-        return convertView;
+        return result;
     }
 }
 
+
+/*
+
+Todo: Describe class here then comment code bits
+
+ */
 class QA {
     String question;
     String answer;
