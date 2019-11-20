@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.home.MainActivity;
 import com.example.home.R;
 
 import java.util.Objects;
@@ -70,5 +71,11 @@ public class TipsFragment extends Fragment {
         params.height = height + (lv.getDividerHeight() * (la.getCount()-1));
         lv.setLayoutParams(params);
         lv.requestLayout();
+    }
+
+    @Override
+    public void onResume() {
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        super.onResume();
     }
 }

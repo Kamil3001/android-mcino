@@ -80,4 +80,10 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
             ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
         }
     }
+
+    @Override
+    public void onResume() {
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        super.onResume();
+    }
 }

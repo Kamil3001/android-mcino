@@ -40,4 +40,8 @@
         <item name="android:paddingHorizontal">10dp</item>
     </style>
 
+    <style name="MySwitch">
+        <item name="colorControlActivated">#08086D</item>
+    </style>
+
 </resources>
