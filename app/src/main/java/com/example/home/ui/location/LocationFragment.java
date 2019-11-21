@@ -28,8 +28,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.DecimalFormat;
-
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 
 /*
