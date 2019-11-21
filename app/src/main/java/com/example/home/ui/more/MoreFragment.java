@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import com.example.home.R;
 import com.example.home.ui.faq.FaqFragment;
 import com.example.home.ui.privacy.PrivacyFragment;
 import com.example.home.ui.stats.StatsFragment;
+import com.example.home.ui.your_reports.YourReportsFragment;
 
 public class MoreFragment extends Fragment implements View.OnClickListener {
 
@@ -36,6 +38,9 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         Button btn4 = root.findViewById(R.id.btn_contactus);
         btn4.setOnClickListener(this);
 
+        Button btn5 = root.findViewById(R.id.btn_yourreports);
+        btn5.setOnClickListener(this);
+
         return root;
     }
 
@@ -56,6 +61,14 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_contactus:
                 ((MainActivity) getActivity()).showContactInfo();
+                break;
+            case R.id.btn_yourreports:
+                if(MainActivity.sql.hasEntries()) {
+                    f = new YourReportsFragment();
+                }else{
+                    Toast.makeText(getActivity(), "No previous reports detected", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 break;
         }
 

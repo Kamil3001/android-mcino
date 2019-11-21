@@ -83,6 +83,8 @@ public class LocationFragment extends Fragment implements LocationListener {
         locationViewModel.getText().observe(this, s->btnReturn.setOnClickListener(view -> {
             Intent intent = new Intent(getContext(), LocationFragment.class);
             intent.putExtra("location", location.latitude +","+location.longitude);
+            System.out.println("***** "+locationViewModel.getText()+" -- "+location.latitude+" "+location.longitude);
+
             getTargetFragment().onActivityResult(getTargetRequestCode(), 1, intent);
             getTargetFragment().getFragmentManager().popBackStack();
         }));
