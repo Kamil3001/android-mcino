@@ -1,6 +1,7 @@
 package com.example.home.ui.report;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -21,11 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -33,7 +34,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.MainActivity;
 import com.example.home.R;
-import com.example.home.ui.home.HomeFragment;
 import com.example.home.ui.location.LocationFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -41,7 +41,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
-import static android.content.ContentValues.TAG;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 
 public class ReportFragment extends Fragment implements LocationListener {

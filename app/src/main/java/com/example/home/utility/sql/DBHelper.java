@@ -127,7 +127,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         entries = new ArrayList<>();
         Cursor cur = db.rawQuery("SELECT * FROM " + REPORTS_TABLE_NAME,null);
-        CursorWindow cw = new CursorWindow("test", 5000000);
+        CursorWindow cw = new CursorWindow("test", 10000000);
         AbstractWindowedCursor ac = (AbstractWindowedCursor) cur;
         ac.setWindow(cw);
         try {
@@ -184,7 +184,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean hasEntries(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT count(*) FROM " + REPORTS_TABLE_NAME,null);
-        CursorWindow cw = new CursorWindow("test", 5000000);
+        CursorWindow cw = new CursorWindow("test", 10000000);
         AbstractWindowedCursor ac = (AbstractWindowedCursor) cursor;
         ac.setWindow(cw);
         try {
