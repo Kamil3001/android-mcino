@@ -33,6 +33,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.MainActivity;
+import com.example.home.MyApplication;
 import com.example.home.R;
 import com.example.home.ui.location.LocationFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -163,6 +164,7 @@ public class ReportFragment extends Fragment implements LocationListener {
     public void onLocationChanged(Location location) {
         reportedLocation = location.getLatitude() +", "+location.getLongitude();
         txtLocation.setText(reportedLocation);
+        ((MyApplication) getActivity().getApplication()).setGlobalLocation(location.getLongitude(), location.getLatitude());
     }
 
     private void onClick(View v){
