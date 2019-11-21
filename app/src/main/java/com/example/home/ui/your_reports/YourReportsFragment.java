@@ -1,7 +1,6 @@
 package com.example.home.ui.your_reports;
 
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -11,15 +10,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.home.MainActivity;
@@ -30,11 +26,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class YourReportsFragment extends Fragment {
-
-
 
     private TableLayout reports;
 
@@ -49,15 +42,15 @@ public class YourReportsFragment extends Fragment {
 
         reports = root.findViewById(R.id.reportTable);
 
-        ArrayList<DBHelper.Entry> output = MainActivity.sql.getAllEntries();
+        fillRows(MainActivity.sql.getAllEntries());
 
+        return root;
+    }
 
+    private void fillRows(ArrayList<DBHelper.Entry> output) {
         int i=0;
         TableRow row;
-        TextView location;
-        TextView numOfPeople;
-        TextView sheltered;
-        TextView description;
+        TextView[] columns = new TextView[4];
 
         TableLayout.LayoutParams tableLayoutParams = new TableLayout.LayoutParams(
                 TableLayout.LayoutParams.MATCH_PARENT,
@@ -65,10 +58,7 @@ public class YourReportsFragment extends Fragment {
         );
         tableLayoutParams.setMargins(2, 0, 0, 2);
 
-
-        int dp5 = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
         int dp10 = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
-        int dp20 = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
         int[] rowColours = new int[2];
         rowColours[0] = Color.parseColor("#82c5fa");
         rowColours[1] = Color.WHITE;
@@ -81,49 +71,26 @@ public class YourReportsFragment extends Fragment {
             row.setLayoutParams(tableLayoutParams);
             row.setBackgroundColor(rowColours[i%2]);
 
-            location = new TextView(getContext());
-            location.setLayoutParams(new TableRow.LayoutParams(0));
-            location.setText(getLocation(entry.getLatitude(), entry.getLongitude()));
-            location.setTextSize(18);
-            location.setPadding(dp5,0,dp5,0);
-            location.setGravity(Gravity.CENTER);
+            for(int j=0; j<4; j++) {
+                columns[j] = new TextView(getContext());
+                columns[j].setLayoutParams(new TableRow.LayoutParams(j));
+                columns[j].setPadding(dp10, 0, dp10, 0);
+                columns[j].setTextSize(18);
+                columns[j].setGravity(Gravity.CENTER);
+            }
 
-            numOfPeople = new TextView(getContext());
-            numOfPeople.setLayoutParams(new TableRow.LayoutParams(1));
-            numOfPeople.setText(String.valueOf(entry.getPeople()));
-            numOfPeople.setTextSize(18);
-            numOfPeople.setPadding(dp5,0,dp5,0);
-            numOfPeople.setGravity(Gravity.CENTER);
+            columns[0].setText(getLocation(entry.getLatitude(), entry.getLongitude()));
+            columns[1].setText(String.valueOf(entry.getPeople()));
+            columns[2].setText(entry.getSheltered());
+            columns[3].setText(entry.getDescription());
+            columns[3].setGravity(Gravity.START);
 
-            sheltered = new TextView(getContext());
-            sheltered.setLayoutParams(new TableRow.LayoutParams(2));
-            sheltered.setText(entry.getSheltered());
-            sheltered.setTextSize(18);
-            sheltered.setPadding(dp5,0,dp5,0);
-            sheltered.setGravity(Gravity.CENTER);
-
-            description = new TextView(getContext());
-            description.setLayoutParams(new TableRow.LayoutParams(3));
-            description.setText(entry.getDescription());
-            description.setTextSize(18);
-            description.setPadding(dp20,0,dp5,0);
-
-
-            row.addView(location);
-            row.addView(numOfPeople);
-            row.addView(sheltered);
-            row.addView(description);
+            for(int j=0; j<4; j++) {
+                row.addView(columns[j]);
+            }
 
             reports.addView(row);
         }
-
-//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-//                Objects.requireNonNull(getContext()),
-//                android.R.layout.simple_list_item_1,
-//                output
-//        );
-//        sqlEntries.setAdapter(arrayAdapter);
-        return root;
     }
 
     private String getLocation(String latitude, String longitude){
@@ -143,22 +110,6 @@ public class YourReportsFragment extends Fragment {
         }
 
         return location;
-    }
-
-    //TODO Fix format issues
-    private ArrayList<String> generateList(ArrayList<DBHelper.Entry> entries){
-        ArrayList<String> result = new ArrayList<>();
-        String heading = String.format("%-26s %-6s %-7s %-20s", "\uD83D\uDCCC", " \u200E\uD83D\uDC64", "\uD83C\uDFE0", "Description");
-        result.add(heading);
-        for(DBHelper.Entry entry: entries){
-            StringBuilder sb = new StringBuilder();
-            sb.append(String.format("%-26s",getLocation(entry.getLatitude(), entry.getLongitude())));
-            sb.append(String.format("%-6s",entry.getPeople()));
-            sb.append(String.format("%-7s", entry.getSheltered()));
-            sb.append(String.format("%-20s", entry.getDescription()));
-            result.add(sb.toString());
-        }
-        return result;
     }
 
     public void onResume() {

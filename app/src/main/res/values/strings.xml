@@ -80,7 +80,6 @@
         <item>The app uses location services to aid in submitting reports, however the location can be manually changed and the app will never store a location unless it is submitted in a report.</item>
         <item>hoME provides access to its database only to verified services, the application or its owners do not assume responsibility over data submitted by its users.</item>
         <item>For any other privacy concerns use the Contact Us section to make inquiries.</item>
-        <item></item>
     </string-array>
     <string name="my_location_btn">My Location</string>
     <string name="specific_location_btn">Specify Location</string>
@@ -123,4 +122,8 @@
         <item>Wexford</item>
         <item>Wicklow</item>
     </string-array>
+    <string name="ascii_location">📌</string>
+    <string name="ascii_num_of_ppl">👤</string>
+    <string name="ascii_sheltered">🏠</string>
+    <string name="desc">Description</string>
 </resources>
