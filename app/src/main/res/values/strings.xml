@@ -87,4 +87,39 @@
     <string name="people_cnt_hint">No. of people</string>
     <string name="shelterSwitch">Is the person or people under a roof?</string>
     <string name="submit">Submit</string>
+    <string name="services_title">Find homeless services in your area</string>
+    <string name="contact_spinner_title">Select County…</string>
+    <string-array name="counties_array">
+        <item>Select county…</item>
+        <item>Dublin</item>
+        <item>¬Dublin City Council</item>
+        <item>¬Dún Laoghaire–Rathdown</item>
+        <item>¬Fingal</item>
+        <item>¬South Dublin</item>
+        <item>Carlow</item>
+        <item>Cavan</item>
+        <item>Clare</item>
+        <item>Cork</item>
+        <item>Donegal</item>
+        <item>Galway</item>
+        <item>Kerry</item>
+        <item>Kildare</item>
+        <item>Kilkenny</item>
+        <item>Laois</item>
+        <item>Leitrim</item>
+        <item>Limerick</item>
+        <item>Longford</item>
+        <item>Louth</item>
+        <item>Mayo</item>
+        <item>Meath</item>
+        <item>Monaghan</item>
+        <item>Offaly</item>
+        <item>Roscommon</item>
+        <item>Sligo</item>
+        <item>Tipperary</item>
+        <item>Waterford</item>
+        <item>Westmeath</item>
+        <item>Wexford</item>
+        <item>Wicklow</item>
+    </string-array>
 </resources>

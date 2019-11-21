@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1.0">
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    <TextView
+        android:id="@+id/service_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/service_names"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
+</TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    <TextView
+        android:id="@+id/service_web"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.9"
+        android:textColorLink="@color/email_unpressed"
+        android:textSize="20sp"
+        />
+        <TextView
+            android:id="@+id/scroll_space"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/service_phone"
+        android:layout_width="0dp"
+        android:layout_weight="0.65"
+        android:layout_height="wrap_content"
+        android:textColorLink="@color/call_unpressed"
+        android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/service_county"
+            android:layout_width="0dp"
+            android:layout_weight="0.35"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:textColor="@color/service_counties"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </TableRow>
+
+</LinearLayout>

@@ -10,7 +10,7 @@ public class ContactsViewModel extends ViewModel {
 
     public ContactsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is Contacts fragment");
+        mText.setValue("Homeless services in your area");
     }
 
     public LiveData<String> getText() {
