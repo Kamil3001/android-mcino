@@ -45,7 +45,7 @@ import static androidx.core.content.PermissionChecker.checkSelfPermission;
 
 /*
 
-Todo: Describe class here then comment code bits
+TODO: Comment this class and make sure methods are adequately commented
 
  */
 
@@ -133,9 +133,6 @@ public class ReportFragment extends Fragment implements LocationListener {
                         Log.d("REPORT", "Could not create temp file:", e);
                     }
                 }
-//                else{
-//                    Toast.makeText(main, "Writing to storage permission denied", Toast.LENGTH_SHORT).show();
-//                }
             }
         }
     }

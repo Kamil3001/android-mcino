@@ -19,7 +19,7 @@ import com.example.home.ui.your_reports.YourReportsFragment;
 
 /*
 
-Todo: Describe class here then comment code bits
+TODO: Comment this class and make sure methods are adequately commented
 
  */
 

@@ -6,7 +6,6 @@
     android:shrinkColumns="3">
 
     <TableRow
-        android:paddingHorizontal="10dp"
         android:paddingVertical="10dp"
         android:id="@+id/tableHeaders"
         android:background="@android:color/darker_gray"

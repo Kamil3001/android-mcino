@@ -27,6 +27,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/*
+
+TODO: Comment this class and make sure methods are adequately commented
+
+ */
+
 public class YourReportsFragment extends Fragment {
 
     private TableLayout reports;
@@ -58,7 +64,7 @@ public class YourReportsFragment extends Fragment {
         );
         tableLayoutParams.setMargins(2, 0, 0, 2);
 
-        int dp10 = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+        int pad = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
         int[] rowColours = new int[2];
         rowColours[0] = Color.parseColor("#82c5fa");
         rowColours[1] = Color.WHITE;
@@ -67,14 +73,14 @@ public class YourReportsFragment extends Fragment {
         for(DBHelper.Entry entry : output) {
             row = new TableRow(getContext());
             row.setId(i++);
-            row.setPadding(dp10,dp10,dp10,dp10);
+            row.setPadding(pad,pad,pad,pad);
             row.setLayoutParams(tableLayoutParams);
             row.setBackgroundColor(rowColours[i%2]);
 
             for(int j=0; j<4; j++) {
                 columns[j] = new TextView(getContext());
                 columns[j].setLayoutParams(new TableRow.LayoutParams(j));
-                columns[j].setPadding(dp10, 0, dp10, 0);
+                columns[j].setPadding(pad, 0, pad, 0);
                 columns[j].setTextSize(18);
                 columns[j].setGravity(Gravity.CENTER);
             }
@@ -102,6 +108,10 @@ public class YourReportsFragment extends Fragment {
             addresses = gcd.getFromLocation(Double.parseDouble(latitude), Double.parseDouble(longitude), 1);
             if (addresses.size() > 0) {
                 location = addresses.get(0).getLocality();
+                if(location == null) {
+                    location = latitude + ",\n" + longitude;
+                }
+
                 Log.v("YOUR_REPORTS", latitude+ " " +longitude + " => " + location);
             }
         }

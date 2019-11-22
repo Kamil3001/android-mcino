@@ -18,7 +18,7 @@ import java.util.Objects;
 
 /*
 
-Todo: Describe class here then comment code bits
+TODO: Comment this class and make sure methods are adequately commented
 
  */
 

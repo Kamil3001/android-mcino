@@ -17,8 +17,6 @@ import androidx.annotation.NonNull;
 
 import androidx.fragment.app.Fragment;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import com.example.home.MainActivity;
 import com.example.home.MyApplication;
 import com.example.home.R;
@@ -27,9 +25,14 @@ import com.example.home.utility.sql.DBAssetHelper;
 
 import java.util.ArrayList;
 
+/*
+
+TODO: Comment this class and make sure methods are adequately commented
+
+ */
+
 public class ContactsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
-    private ContactsViewModel contactsViewModel;
     private Spinner spinner;
     private DBAssetHelper dbAssetHelper;
     private ContactsAdapter contactsAdapter;
@@ -38,8 +41,6 @@ public class ContactsFragment extends Fragment implements AdapterView.OnItemSele
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        contactsViewModel =
-                ViewModelProviders.of(this).get(ContactsViewModel.class);
         dbAssetHelper = new DBAssetHelper(super.getContext());
         View root = inflater.inflate(R.layout.contacts_fragment, container, false);
         setAddress();
