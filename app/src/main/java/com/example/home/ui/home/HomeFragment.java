@@ -9,20 +9,24 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.MainActivity;
 import com.example.home.R;
 import com.example.home.ui.report.ReportFragment;
 
+/*
+
+TODO: Comment this class and make sure methods are adequately commented
+
+ */
+
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
-    private HomeViewModel homeViewModel;
+    private MainActivity main;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+        main = (MainActivity) getActivity();
         View root = inflater.inflate(R.layout.home_fragment, container, false);
         WebView webView = root.findViewById(R.id.home_web_view);
         webView.setVerticalScrollBarEnabled(false);
@@ -35,7 +39,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void onResume() {
-        MainActivity main = (MainActivity) getActivity();
         main.checkNav(R.id.navigation_home);
         main.getSupportActionBar().setDisplayShowHomeEnabled(true);
         super.onResume();

@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,11 +28,18 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DecimalFormat;
+
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
+
+/*
+
+TODO: Comment this class and make sure methods are adequately commented
+
+ */
 
 public class LocationFragment extends Fragment implements LocationListener {
 
-    private LocationViewModel locationViewModel;
     private GoogleMap googleMap;
     private MapView mapView;
     private FloatingActionButton btnMyLocation, btnReturn;
@@ -42,8 +48,6 @@ public class LocationFragment extends Fragment implements LocationListener {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        locationViewModel =
-                ViewModelProviders.of(this).get(LocationViewModel.class);
         View root = inflater.inflate(R.layout.location_fragment, container, false);
         mapView = root.findViewById(R.id.map);
         mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -61,8 +65,8 @@ public class LocationFragment extends Fragment implements LocationListener {
         }
         mapView.getMapAsync(mMap -> {
             googleMap = mMap;
-            locationViewModel.getText().observe(this, s-> googleMap.setOnMapClickListener(this::drawMarker));
-            locationViewModel.getText().observe(this, s-> googleMap.setOnInfoWindowClickListener(Marker::remove));
+            googleMap.setOnMapClickListener(this::drawMarker);
+            googleMap.setOnInfoWindowClickListener(Marker::remove);
             googleMap.setMyLocationEnabled(true);
             // For showing a move to my location button
             LatLng ireland = new LatLng(53, -7);
@@ -71,25 +75,34 @@ public class LocationFragment extends Fragment implements LocationListener {
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         });
 
-        locationViewModel.getText().observe(this, s->btnMyLocation.setOnClickListener(view -> {
-            if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED && checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                return;
-            }
-            Toast.makeText(getContext(), "Getting your location", Toast.LENGTH_LONG).show();
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 500, this);
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 500, this);
-        }));
-        locationViewModel.getText().observe(this, s->btnReturn.setOnClickListener(view -> {
-            Intent intent = new Intent(getContext(), LocationFragment.class);
-            intent.putExtra("location", location.latitude +","+location.longitude);
-            System.out.println("***** "+locationViewModel.getText()+" -- "+location.latitude+" "+location.longitude);
-
-            getTargetFragment().onActivityResult(getTargetRequestCode(), 1, intent);
-            getTargetFragment().getFragmentManager().popBackStack();
-        }));
+        btnMyLocation.setOnClickListener(this::onClick);
+        btnReturn.setOnClickListener(this::onClick);
 
         return root;
+    }
+
+    private void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.btnMyLocation: {
+                if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED && checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                }
+                else {
+                    Toast.makeText(getContext(), "Getting your location", Toast.LENGTH_LONG).show();
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 500, this);
+                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 500, this);
+                }
+                break;
+            }
+            case R.id.btnReturn: {
+                Intent intent = new Intent(getContext(), LocationFragment.class);
+                DecimalFormat f = new DecimalFormat("##.0000000");
+                intent.putExtra("location", f.format(location.latitude) +", "+ f.format(location.longitude));
+                getTargetFragment().onActivityResult(getTargetRequestCode(), 1, intent);
+                getTargetFragment().getFragmentManager().popBackStack();
+                break;
+            }
+        }
     }
 
     @Override
@@ -140,14 +153,12 @@ public class LocationFragment extends Fragment implements LocationListener {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getContext(), "Permission granted", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
-                }
+        if(requestCode == 1){
+            // If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getContext(), "Permission granted", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -162,6 +173,7 @@ public class LocationFragment extends Fragment implements LocationListener {
         markerOptions.position(point);
         markerOptions.title("Person in need for help");
         markerOptions.snippet("Click here to remove marker");
+        googleMap.clear();
         googleMap.addMarker(markerOptions);
     }
 }
