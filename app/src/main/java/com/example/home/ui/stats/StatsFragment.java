@@ -3,6 +3,7 @@ package com.example.home.ui.stats;
 import android.database.Cursor;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 
 import android.os.Bundle;
@@ -56,8 +57,13 @@ public class StatsFragment extends Fragment implements View.OnTouchListener {
         imageView = v.findViewById(R.id.county_areas);
         boolean handled = false;
 
-        final int xValue = (int) event.getX();
-        final int yValue = (int) event.getY();
+        Matrix inverse = new Matrix();
+        imageView.getImageMatrix().invert(inverse);
+
+        float[] touchPoint = new float[] {event.getX(), event.getY()};
+        inverse.mapPoints(touchPoint);
+        final int xValue = (int) touchPoint[0];
+        final int yValue = (int) touchPoint[1];
         final int action = event.getAction();
 
         if(action == MotionEvent.ACTION_DOWN) {
@@ -70,16 +76,18 @@ public class StatsFragment extends Fragment implements View.OnTouchListener {
     private void setCountyStatistics(int x, int y) {
         if (imageView != null ) {
             Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-            imageView.getLocationOnScreen(imageXY);
+//            imageView.getLocationOnScreen(imageXY);
+//            System.out.println(imageXY[0] + ", " + imageXY[1]);
+//            imageView.getLocationInWindow(imageXY);
+//            System.out.println(imageXY[0] + ", " + imageXY[1]);
             if(y < bitmap.getHeight() && y > imageXY[1]) {
                 // The 120 may need to be changed. imageXY[1} (y offset) was 338 for me but
                 // y-338 was still 120 pixels off for me
-                int pixelValue = bitmap.getPixel(x - imageXY[0], y - (imageXY[1]-120));
+                int pixelValue = bitmap.getPixel(x, y);
                 String hexColor = String.format("#%06X", (0xFFFFFF & pixelValue));
                 setStatistics(hexColor.substring(1).toLowerCase());
             }
         }
-
     }
     private void setStatistics(String hexColour){
         Cursor c = dbAssetHelper.getCountyFigures(dbAssetHelper.getCountyByColour(hexColour));
