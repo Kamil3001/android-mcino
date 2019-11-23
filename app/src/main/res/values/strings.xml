@@ -122,4 +122,6 @@
         <item>Wexford</item>
         <item>Wicklow</item>
     </string-array>
+    <string name="counties_description">An image of Ireland with county borders</string>
+    <string name="counties_colour_description">An image of Ireland with each county in the republic coloured differently as per county_colours table in county_details</string>
 </resources>

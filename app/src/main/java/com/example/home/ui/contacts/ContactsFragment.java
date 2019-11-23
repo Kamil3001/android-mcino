@@ -31,7 +31,7 @@ public class ContactsFragment extends Fragment implements AdapterView.OnItemSele
 
     private ContactsViewModel contactsViewModel;
     private Spinner spinner;
-    private DBAssetHelper dbAssetHelper;
+    private DBAssetHelper dbAssetHelper = MainActivity.dbAssetHelper;
     private ContactsAdapter contactsAdapter;
     private static String county = "";
     private ListView listView;
@@ -40,7 +40,6 @@ public class ContactsFragment extends Fragment implements AdapterView.OnItemSele
                              ViewGroup container, Bundle savedInstanceState) {
         contactsViewModel =
                 ViewModelProviders.of(this).get(ContactsViewModel.class);
-        dbAssetHelper = new DBAssetHelper(super.getContext());
         View root = inflater.inflate(R.layout.contacts_fragment, container, false);
         setAddress();
 

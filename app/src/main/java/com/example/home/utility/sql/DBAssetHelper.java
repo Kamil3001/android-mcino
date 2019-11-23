@@ -11,10 +11,11 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 public class DBAssetHelper extends SQLiteAssetHelper {
 
-    private static final String DATABASE_NAME = "homeless_services.db";
+    private static final String DATABASE_NAME = "county_details";
     private static final int DATABASE_VERSION = 10;
     private static SQLiteDatabase db;
     private static SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+    private String currentCounty;
     private Cursor cursor;
 
     private static Cursor allServices;
@@ -70,5 +71,28 @@ public class DBAssetHelper extends SQLiteAssetHelper {
         qb.setTables(INNER_JOIN);
         allServices = qb.query(db, SELECT, null, null, null, null, SORT_COUNTY);
         allServices.moveToFirst();
+    }
+    public String getCountyByColour(String hexValue){
+        System.out.println("InGCBC "+hexValue);
+        if(!hexValue.equals("000000") && !hexValue.equals("ffffff")) {
+            qb.setTables("county_colours");
+            String[] SELECT_COUNTY = {"County"};
+            String WHERE = "county_colours.Colour='" + hexValue + "'";
+            cursor = qb.query(db, SELECT_COUNTY, WHERE, null, null, null, null);
+            cursor.moveToFirst();
+            if(cursor.getCount()>0) {
+                currentCounty = cursor.getString(cursor.getColumnIndex("County"));
+                System.out.println("COUNTYBYCOLOUR " + currentCounty);
+            }
+        }
+        return currentCounty;
+    }
+    public Cursor getCountyFigures(String county){
+        qb.setTables("figures");
+        String WHERE = "figures.County='" + county +"'";
+        cursor = qb.query(db, SELECT, WHERE, null, null, null, null);
+        cursor.moveToFirst();
+        return cursor;
+
     }
 }
