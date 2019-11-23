@@ -80,7 +80,7 @@ public class StatsFragment extends Fragment implements View.OnTouchListener {
 //            System.out.println(imageXY[0] + ", " + imageXY[1]);
 //            imageView.getLocationInWindow(imageXY);
 //            System.out.println(imageXY[0] + ", " + imageXY[1]);
-            if(y < bitmap.getHeight() && y > imageXY[1]) {
+            if(y < bitmap.getHeight()) {
                 // The 120 may need to be changed. imageXY[1} (y offset) was 338 for me but
                 // y-338 was still 120 pixels off for me
                 int pixelValue = bitmap.getPixel(x, y);
