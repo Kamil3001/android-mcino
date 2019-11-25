@@ -73,7 +73,6 @@ public class DBAssetHelper extends SQLiteAssetHelper {
         allServices.moveToFirst();
     }
     public String getCountyByColour(String hexValue){
-        System.out.println("InGCBC "+hexValue);
         if(!hexValue.equals("000000") && !hexValue.equals("ffffff")) {
             qb.setTables("county_colours");
             String[] SELECT_COUNTY = {"County"};
@@ -82,7 +81,6 @@ public class DBAssetHelper extends SQLiteAssetHelper {
             cursor.moveToFirst();
             if(cursor.getCount()>0) {
                 currentCounty = cursor.getString(cursor.getColumnIndex("County"));
-                System.out.println("COUNTYBYCOLOUR " + currentCounty);
             }
         }
         return currentCounty;

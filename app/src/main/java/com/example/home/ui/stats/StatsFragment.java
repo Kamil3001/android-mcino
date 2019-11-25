@@ -1,9 +1,9 @@
 package com.example.home.ui.stats;
 
+import android.content.res.Resources;
 import android.database.Cursor;
 
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 
 import android.os.Bundle;
@@ -30,7 +30,7 @@ public class StatsFragment extends Fragment implements View.OnTouchListener {
     private ImageView imageView;
     private TextView statsText;
     private DBAssetHelper dbAssetHelper;
-    private int[] imageXY = new int[2];
+    private int deviceOffsetY = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +39,13 @@ public class StatsFragment extends Fragment implements View.OnTouchListener {
         statsViewModel =
                 ViewModelProviders.of(this).get(StatsViewModel.class);
         View root = inflater.inflate(R.layout.stats_fragment, container, false);
-        ImageView imageView = root.findViewById(R.id.county_areas);
+        ImageView imageView = root.findViewById(R.id.coloured_map);
+        Resources resources = getContext().getResources();
+        int navBar = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        int statusBar = resources.getIdentifier("status_bar_height", "dimen", "android");
+        deviceOffsetY += statusBar>0 ? resources.getDimensionPixelSize(statusBar) : 0;
+        deviceOffsetY += navBar>0 ? resources.getDimensionPixelSize(navBar) : 0;
+
         imageView.setOnTouchListener(this);
 
 
@@ -54,16 +60,13 @@ public class StatsFragment extends Fragment implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        imageView = v.findViewById(R.id.county_areas);
+        imageView = v.findViewById(R.id.coloured_map);
         boolean handled = false;
 
-        Matrix inverse = new Matrix();
-        imageView.getImageMatrix().invert(inverse);
 
-        float[] touchPoint = new float[] {event.getX(), event.getY()};
-        inverse.mapPoints(touchPoint);
-        final int xValue = (int) touchPoint[0];
-        final int yValue = (int) touchPoint[1];
+        final int xValue = (int) event.getX();
+        final int yValue = (int) event.getY();
+
         final int action = event.getAction();
 
         if(action == MotionEvent.ACTION_DOWN) {
@@ -76,14 +79,9 @@ public class StatsFragment extends Fragment implements View.OnTouchListener {
     private void setCountyStatistics(int x, int y) {
         if (imageView != null ) {
             Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-//            imageView.getLocationOnScreen(imageXY);
-//            System.out.println(imageXY[0] + ", " + imageXY[1]);
-//            imageView.getLocationInWindow(imageXY);
-//            System.out.println(imageXY[0] + ", " + imageXY[1]);
-            if(y < bitmap.getHeight()) {
-                // The 120 may need to be changed. imageXY[1} (y offset) was 338 for me but
-                // y-338 was still 120 pixels off for me
-                int pixelValue = bitmap.getPixel(x, y);
+            int paddingLeft = imageView.getPaddingLeft();
+            if(y < bitmap.getHeight() && y > deviceOffsetY) {
+                int pixelValue = bitmap.getPixel((x+paddingLeft), (y-deviceOffsetY));
                 String hexColor = String.format("#%06X", (0xFFFFFF & pixelValue));
                 setStatistics(hexColor.substring(1).toLowerCase());
             }
