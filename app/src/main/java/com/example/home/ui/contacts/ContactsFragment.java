@@ -27,6 +27,17 @@ import com.example.home.utility.sql.DBAssetHelper;
 
 import java.util.ArrayList;
 
+/** This Fragment displays a list of homeless service contact details.
+ *
+ * A county is either selected from the dropdown list in spinner
+ * or set via the device location if this has already been set in MyApplication.java.
+ *
+ * The database helper class DBAssetHelper returns the services in the selected county/counties.
+ * The details are passed to ContactsAdapter.java to create a View containing all the services
+ * which is displayed in a ListView below the spinner.
+ *
+ * **/
+
 public class ContactsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private ContactsViewModel contactsViewModel;
@@ -36,52 +47,62 @@ public class ContactsFragment extends Fragment implements AdapterView.OnItemSele
     private static String county = "";
     private ListView listView;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        contactsViewModel =
-                ViewModelProviders.of(this).get(ContactsViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        contactsViewModel = ViewModelProviders.of(this).get(ContactsViewModel.class);
+        // create contacts fragment
         View root = inflater.inflate(R.layout.contacts_fragment, container, false);
+        // check for previously set location
         setAddress();
-
+        // create spinner, set item selected listener, instantiate dropdown list and set adapter
         spinner = root.findViewById(R.id.spinner1);
         spinner.setOnItemSelectedListener(this);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.counties_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        // instantiate listView
         listView = root.findViewById(R.id.contacts_list);
 
         return root;
     }
 
+    /** Sets the contact details for a user selected county or location based
+     * @param adapterView The AdapterView where the selection happened - this
+     * @param view The view within the AdapterView that was clicked - spinner
+     * @param i The position of the spinner
+     * **/
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String item;
 
+        // if location has been set
         if(!county.equals("")) {
             item = county;
             int index=0;
+            // find corresponding county in counties_array
             String [] counties = getContext().getResources().getStringArray(R.array.counties_array);
             while(index<counties.length){
                 if(county.equals(counties[index])) {
+                    // set spinner to that county
                     spinner.setSelection(index);
                     index=counties.length;
                 }
                 index++;
             }
-        }else {
+        }
+        // else use county selected in spinner
+        else {
             item = adapterView.getItemAtPosition(i).toString();
+            // if 1 of Dublin sub regions
             if(item.contains("¬"))
                 item = item.substring(1);
         }
         Toast.makeText(adapterView.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
 
-        ArrayList<ServiceDetails> details = new ArrayList<>();
-        for (String[] str : setServices(item))
-            details.add(new ServiceDetails(str[0], str[1], str[2], str[3]));
+        // Create a for each service returned by setServices()
 
-        contactsAdapter = new ContactsAdapter(getActivity(), details);
+        // Instantiate custom adapter to make TextViews using a list of ServiceDetails for item (county)
+        contactsAdapter = new ContactsAdapter(getActivity(), setServices(item));
         listView.setAdapter(contactsAdapter);
-
     }
 
     @Override
@@ -94,20 +115,30 @@ public class ContactsFragment extends Fragment implements AdapterView.OnItemSele
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         super.onResume();
     }
-    private ArrayList<String[]> setServices(String item) {
-        ArrayList<String[]> services = new ArrayList<>();
+    /** Creates a list of ServiceDetails each containing homeless service details by extracting
+     * columns for each example returned from dbAssetHelper.getColumns().
+     * @param item county to get the table of in dbAssetHelper
+     * @return A List of service details **/
+    private ArrayList<ServiceDetails> setServices(String item) {
+
+        ArrayList<ServiceDetails> services2 = new ArrayList<>();
+
         Cursor cursor = dbAssetHelper.getColumns(item);
 
         do{
-            String [] serviceDetails = new String[4];
-            serviceDetails[0] = cursor.getString(cursor.getColumnIndex("Name")).trim();
-            serviceDetails[1] = cursor.getString(cursor.getColumnIndex("PhoneNum")).trim();
-            serviceDetails[2] = cursor.getString(cursor.getColumnIndex("Website")).trim();
-            serviceDetails[3] = cursor.getString(cursor.getColumnIndex("county_name")).trim();
-            services.add(serviceDetails);
+            ServiceDetails serviceDetails2 = new ServiceDetails(
+                    cursor.getString(cursor.getColumnIndex("Name")).trim(),
+                    cursor.getString(cursor.getColumnIndex("PhoneNum")).trim(),
+                    cursor.getString(cursor.getColumnIndex("Website")).trim(),
+                    cursor.getString(cursor.getColumnIndex("county_name")).trim()
+            );
+            services2.add(serviceDetails2);
+
         }while (cursor.moveToNext());
-        return services;
+        return services2;
     }
+    /** This method checks if the location has been set in the class MyApplication, if so,
+     * the class AddressManager is used to find the county name from the longitude and latitude **/
     private void setAddress(){
         if(((MyApplication) getActivity().getApplication()).hasLocation()) {
             AddressManager addressManager = new AddressManager();
