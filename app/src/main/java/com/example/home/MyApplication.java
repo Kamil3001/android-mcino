@@ -1,6 +1,7 @@
 package com.example.home;
 
 import android.app.Application;
+
 /** This custom Application class is used to store the global variables
  * for location (longitude and latitude) **/
 public class MyApplication extends Application {

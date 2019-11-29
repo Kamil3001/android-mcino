@@ -24,12 +24,9 @@ import com.example.home.utility.sql.DBAssetHelper;
 import com.example.home.utility.sql.DBHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-/*
-
-Todo: Describe class here then comment code bits
-
+/**
+ * The MainActivity which contains all our fragments at runtime
  */
-
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView navView;
@@ -39,13 +36,17 @@ public class MainActivity extends AppCompatActivity {
     String phoneNo = "087-241-FAKE"; //note FAKE will be translated using numpad by phone
     String email = "home-rough-sleepers@fake.com";
 
+    /**
+     * Creating the view
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         navView = findViewById(R.id.nav_view);
-        sql = new DBHelper(this);
-        dbAssetHelper = new DBAssetHelper(this);
+        sql = new DBHelper(this); //reports database
+        dbAssetHelper = new DBAssetHelper(this); //stats and contacts database
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
+        //setting up a logo in the top bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setLogo(R.drawable.padded_logo);
@@ -64,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
     }
 
-    //unchecks the current navigation menu item (called by MoreFragment class when replacing fragments)
+    /**
+     * Unchecks the currently selected navigation bar item
+     */
     public void uncheckNav() {
         int id = navView.getSelectedItemId();
         Menu menu = navView.getMenu();
@@ -74,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
         menu.setGroupCheckable(0, true, true);
     }
 
+    /**
+     * Selects the navigation bar item based on current menu
+     * @param id
+     */
     public void checkNav(int id) {
         Menu menu = navView.getMenu();
         menu.setGroupCheckable(0, true, false);
@@ -81,10 +89,10 @@ public class MainActivity extends AppCompatActivity {
         menu.setGroupCheckable(0, true, true);
     }
 
-    /*
-    This method displays the contact dialog when Contact Us button is clicked in the More tab.
-    Buttons in charge of intents are hidden if the intents cannot be handled by the user's device.
-    Listeners call methods which start the given intents.
+    /**
+     * This method displays the contact dialog when Contact Us button is clicked in the More tab.
+     *     Buttons in charge of intents are hidden if the intents cannot be handled by the user's device.
+     *     Listeners call methods which start the given intents.
      */
     public void showContactInfo() {
         myDialog.setContentView(R.layout.contact_us_popup);
@@ -118,10 +126,10 @@ public class MainActivity extends AppCompatActivity {
         myDialog.show();
     }
 
-    /*
-    Starts an email intent.
-    This function assumes that the intent can be handled, and since we hide the buttons if it can't
-    be, by definition this method will only be called if they can be handled.
+    /**
+     * Starts an email intent.
+     * This function assumes that the intent can be handled, and since we hide the buttons if it can't
+     * be, by definition this method will only be called if they can be handled.
      */
     private void composeEmail() {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
@@ -130,16 +138,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
-    Starts a dial intent (User gets to choose whether they would like to call or not).
-    This function assumes that the intent can be handled, and since we hide the buttons if it can't
-    be, by definition this method will only be called if they can be handled.
+    /**
+     * Starts a dial intent (User gets to choose whether they would like to call or not).
+     *     This function assumes that the intent can be handled, and since we hide the buttons if it can't
+     *     be, by definition this method will only be called if they can be handled.
+     *
      */
     private void dialNumber() {
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNo));
         startActivity(intent);
     }
 
+    /**
+     * Making the back button return to previous screen
+     */
     @Override
     public void onBackPressed(){
         FragmentManager fm = getSupportFragmentManager();

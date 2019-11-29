@@ -11,9 +11,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Address manager attempts to translate geo-coordinates to a County so as to avoid
+ * displaying coordinates if possible
+ */
 public class AddressManager {
 
-
+    /**
+     * Gets the county from a set of geo-coordinates if possible
+     * @param context
+     * @param longitude
+     * @param latitude
+     * @return String containing either the county or the original set of geo-coordinates
+     */
     public String getAddress(Context context, double longitude ,double latitude) {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         String address = "";

@@ -15,15 +15,19 @@ import com.example.home.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-
-This Fragment implements the FAQ screen using a listView with a custom adapter
-reading the question-answer pairs from the strings.xml
-
+/**
+ * A fragment that displays question-answer pairs using a listView with a custom adapter. All QAs are stored
+ * in strings.xml
  */
-
 public class FaqFragment extends Fragment {
 
+    /**
+     * Creating the view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -44,7 +48,7 @@ public class FaqFragment extends Fragment {
             faqList.add(new QA(faq[i], faq[i+1]));
         }
 
-        //applying my custom adapter
+        //applying the custom adapter to populate the listView
         FaqAdapter myAdapter = new FaqAdapter(
                 faqList,
                 getContext()

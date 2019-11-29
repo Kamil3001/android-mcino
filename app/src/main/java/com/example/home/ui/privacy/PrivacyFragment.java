@@ -15,20 +15,25 @@ import com.example.home.R;
 
 import java.util.Objects;
 
-/*
-
-TODO: Comment this class and make sure methods are adequately commented
-
+/**
+ * Fragment to display some privacy information about how the data is stored etc.
  */
-
 public class PrivacyFragment extends Fragment {
 
+    /**
+     * Creating the view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.privacy_fragment, container, false);
         final ListView listView = root.findViewById(R.id.privacy);
         String[] privacy = getResources().getStringArray(R.array.privacy);
 
+        //using an array adapter to fill the listView within the fragment with string array from strings.xml
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 Objects.requireNonNull(getContext()),
                 android.R.layout.simple_list_item_1,
@@ -37,6 +42,7 @@ public class PrivacyFragment extends Fragment {
 
         listView.setAdapter(arrayAdapter);
 
+        //Ensuring bottom navigation bar is unchecked and replacing logo with a Header title
         MainActivity main = (MainActivity) getActivity();
         main.getSupportActionBar().setTitle(R.string.title_privacy);
         main.uncheckNav();

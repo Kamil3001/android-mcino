@@ -14,24 +14,37 @@ import com.example.home.R;
 
 import java.util.List;
 
-/*
-
-This class is a custom list adapter for displaying questions in bold and answers in normal font style
-Implemented following this example: https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
-
+/**
+ * Custom adapter for a list view to display the FAQ questions and answers in a neat way
+ * Questions are set to be in bold while answers are set to normal style
+ * The following example was followed to implement the adapter: https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
  */
 public class FaqAdapter extends ArrayAdapter<QA> {
 
-    // inner class for storing the view
+    /**
+     * A ViewHolder class which will store our view to avoid unnecessary overheads
+     */
     private static class ViewHolder {
         TextView question;
         TextView answer;
     }
 
+    /**
+     * Constructor which simply calls the superclass
+     * @param faq
+     * @param context
+     */
     FaqAdapter(List<QA> faq, Context context) {
         super(context, R.layout.faq_row_item, faq);
     }
 
+    /**
+     * Overriden method which populates the questions and answers using the list passed into constructor earlier
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -56,6 +69,7 @@ public class FaqAdapter extends ArrayAdapter<QA> {
             result = convertView;
         }
 
+        //set the text for question answer of current viewHolder
         assert qa != null;
         viewHolder.question.setText(qa.question);
         viewHolder.answer.setText(qa.answer);
@@ -64,11 +78,8 @@ public class FaqAdapter extends ArrayAdapter<QA> {
     }
 }
 
-
-/*
-
-Question and Answer class
-
+/**
+ * Question-Answer class to simplify the work in the above class
  */
 class QA {
     String question;

@@ -15,14 +15,15 @@ import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
-/*
 
-Todo: Describe class here then comment code bits
-
+/**
+ * A helper class that deals with storing and accessing users reports in a local database
  */
-
 public class DBHelper extends SQLiteOpenHelper {
 
+    /**
+     * An entry class which describes an entry of the database
+     */
     public class Entry{
 
         private String latitude;
@@ -73,10 +74,18 @@ public class DBHelper extends SQLiteOpenHelper {
     private boolean captured = false;
     private ArrayList<Entry> entries = new ArrayList<>();
 
+    /**
+     * Constructor calling superclass
+     * @param context
+     */
     public DBHelper(Context context) {
         super(context, DATABASE_NAME , null, 1);
     }
 
+    /**
+     * Creating the the database table
+     * @param sqLiteDatabase
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(
@@ -90,12 +99,28 @@ public class DBHelper extends SQLiteOpenHelper {
         );
     }
 
+    /**
+     * replacing old table with new table
+     * @param sqLiteDatabase
+     * @param i
+     * @param i1
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + REPORTS_TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 
+    /**
+     * Insert a report entry into the database, due to lack of a remote database and the significant amount of space
+     * we chose to not store a captured image in the local database
+     * @param location
+     * @param people
+     * @param sheltered
+     * @param description
+     * @param image
+     * @return
+     */
     public boolean insertReport(String location, int people, String sheltered, String description, Bitmap image){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -125,6 +150,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    /**
+     * Method to retrieve all entries stored within the database
+     * @return
+     */
     public ArrayList<Entry> getAllEntries(){
         SQLiteDatabase db = this.getReadableDatabase();
         entries = new ArrayList<>();
@@ -132,6 +161,8 @@ public class DBHelper extends SQLiteOpenHelper {
         CursorWindow cw = new CursorWindow("test", 10000000);
         AbstractWindowedCursor ac = (AbstractWindowedCursor) cur;
         ac.setWindow(cw);
+
+        //using a cursor we request information form the database an place it into a list of Entry objects
         try {
             ac.moveToFirst();
             while(!ac.isAfterLast()){
@@ -147,6 +178,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return entries;
     }
 
+    /**
+     * Get the latest entry in the database in string format
+     * @return
+     */
     public String getLastEntry(){
         AbstractWindowedCursor ac = (AbstractWindowedCursor) getReadableDatabase().rawQuery(
                 "SELECT * FROM " + REPORTS_TABLE_NAME +
@@ -183,6 +218,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return sb.toString();
     }
 
+    /**
+     * method checking if a table is empty or not
+     * @return
+     */
     public boolean hasEntries(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT count(*) FROM " + REPORTS_TABLE_NAME,null);

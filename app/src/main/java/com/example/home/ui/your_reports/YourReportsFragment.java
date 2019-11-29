@@ -27,37 +27,48 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/*
-
-TODO: Comment this class and make sure methods are adequately commented
-
+/**
+ * A fragment responsible for displaying the reports that the user submitted in a structure format
  */
-
 public class YourReportsFragment extends Fragment {
 
     private TableLayout reports;
 
+    /**
+     * Creating the view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.your_reports_fragment, container, false);
 
+        //Ensuring the bottom navigation bar is unchecked and header title is set
         MainActivity main = (MainActivity) getActivity();
         main.getSupportActionBar().setTitle(R.string.title_yourreports);
         main.uncheckNav();
 
         reports = root.findViewById(R.id.reportTable);
 
+        //fill the rows of the view with entries from the local database
         fillRows(MainActivity.sql.getAllEntries());
 
         return root;
     }
 
+    /**
+     * Populates the rows in the fragment's TableLayout
+     * @param output
+     */
     private void fillRows(ArrayList<DBHelper.Entry> output) {
         int i=0;
         TableRow row;
         TextView[] columns = new TextView[4];
 
+        //setting up the layout for rows/columns
         TableLayout.LayoutParams tableLayoutParams = new TableLayout.LayoutParams(
                 TableLayout.LayoutParams.MATCH_PARENT,
                 TableLayout.LayoutParams.WRAP_CONTENT
@@ -70,14 +81,18 @@ public class YourReportsFragment extends Fragment {
         rowColours[1] = Color.WHITE;
 
 
+        //for each entry we add a row to the table
         for(DBHelper.Entry entry : output) {
+            //creating and configuring the row
             row = new TableRow(getContext());
             row.setId(i++);
             row.setPadding(pad,pad,pad,pad);
             row.setLayoutParams(tableLayoutParams);
             row.setBackgroundColor(rowColours[i%2]);
 
+            //for each row we add 4 columns corresponding to the information stored in the database
             for(int j=0; j<4; j++) {
+                //creating and configuring the 4 TextViews
                 columns[j] = new TextView(getContext());
                 columns[j].setLayoutParams(new TableRow.LayoutParams(j));
                 columns[j].setPadding(pad, 0, pad, 0);
@@ -85,22 +100,32 @@ public class YourReportsFragment extends Fragment {
                 columns[j].setGravity(Gravity.CENTER);
             }
 
+            //set the text of each of the columns in the row
             columns[0].setText(getLocation(entry.getLatitude(), entry.getLongitude()));
             columns[1].setText(String.valueOf(entry.getPeople()));
             columns[2].setText(entry.getSheltered());
             columns[3].setText(entry.getDescription());
             columns[3].setGravity(Gravity.START);
 
+            //add each column to the TableRow view
             for(int j=0; j<4; j++) {
                 row.addView(columns[j]);
             }
 
+            //add the row to the TableLayout view
             reports.addView(row);
         }
     }
 
+    /**
+     * A method which translates geo-coordinates into a county if possible
+     * @param latitude
+     * @param longitude
+     * @return
+     */
     private String getLocation(String latitude, String longitude){
 
+        //use geocoder to get extract a county from the coordinates
         String location = "";
         Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
         List<Address> addresses;
@@ -122,6 +147,9 @@ public class YourReportsFragment extends Fragment {
         return location;
     }
 
+    /**
+     * Ensure that the navigation is unchecked and header title is changed when fragment is resumed
+     */
     public void onResume() {
         ((MainActivity) getActivity()).uncheckNav();
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_yourreports);

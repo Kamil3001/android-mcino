@@ -17,37 +17,51 @@ import com.example.home.ui.privacy.PrivacyFragment;
 import com.example.home.ui.stats.StatsFragment;
 import com.example.home.ui.your_reports.YourReportsFragment;
 
-/*
-
-TODO: Comment this class and make sure methods are adequately commented
-
+/**
+ * Fragment responsible of a secondary menu with buttons leading to fragments which are not required in a bottom navigation
  */
-
 public class MoreFragment extends Fragment implements View.OnClickListener {
 
+    /**
+     * Creating the view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.more_fragment, container, false);
 
+        //Adding the various buttons leading to different fragments
+        //Statistics
         Button btn1 = root.findViewById(R.id.btn_stats);
         btn1.setOnClickListener(this);
 
+        //FAQ
         Button btn2 = root.findViewById(R.id.btn_faq);
         btn2.setOnClickListener(this);
 
+        //Privacy
         Button btn3 = root.findViewById(R.id.btn_privacy);
         btn3.setOnClickListener(this);
 
+        //Contact Us
         Button btn4 = root.findViewById(R.id.btn_contactus);
         btn4.setOnClickListener(this);
 
+        //Your Reports
         Button btn5 = root.findViewById(R.id.btn_yourreports);
         btn5.setOnClickListener(this);
 
         return root;
     }
 
+    /**
+     * Dealing with button clicks by swapping out the relevant fragments in
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         Fragment f = null;
@@ -76,6 +90,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 break;
         }
 
+        //performing the fragment transaction provided there is a fragment to be swapped in
         if (f != null) {
             getFragmentManager().beginTransaction()
                     .replace(containerId, f)
@@ -85,6 +100,9 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * Ensuring logo is visible rather than a heading in the top bar
+     */
     @Override
     public void onResume() {
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);

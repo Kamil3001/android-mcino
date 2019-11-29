@@ -16,22 +16,30 @@ import com.example.home.R;
 
 import java.util.Objects;
 
-/*
-
-TODO: Comment this class and make sure methods are adequately commented
-
+/**
+ * Fragment that displays Do's and Don'ts when it comes to approaching rough sleepers
+ * The fragment displays each of the lists in separate listviews
  */
-
 public class TipsFragment extends Fragment {
 
+    /**
+     * Creating the view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.tips_fragment, container, false);
         final ListView dosListView = root.findViewById(R.id.dos_list);
         final ListView dontsListView = root.findViewById(R.id.donts_list);
+
+        //gathering our lists from strings.xml
         String[] dos = getResources().getStringArray(R.array.dos_list);
         String[] donts = getResources().getStringArray(R.array.donts_list);
 
+        //filling the first listView with Dos using an adapter
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 Objects.requireNonNull(getContext()),
                 android.R.layout.simple_list_item_1,
@@ -39,8 +47,9 @@ public class TipsFragment extends Fragment {
         );
 
         dosListView.setAdapter(arrayAdapter);
-        setListHeight(dosListView);
+        setListHeight(dosListView); //calling a method on the first list to even out the heights of the two lists
 
+        //filling the second listView with Donts using an adapter
         arrayAdapter = new ArrayAdapter<>(
                 getContext(),
                 android.R.layout.simple_list_item_1,
@@ -48,12 +57,14 @@ public class TipsFragment extends Fragment {
         );
 
         dontsListView.setAdapter(arrayAdapter);
-
-
         return root;
     }
 
-    //solution to second list view overflowing found here: https://stackoverflow.com/questions/17693578/android-how-to-display-2-listviews-in-one-activity-one-after-the-other
+    /**
+     * Solution to displaying the ListViews with proper heights. Applied the solution I found on the following site:
+     * https://stackoverflow.com/questions/17693578/android-how-to-display-2-listviews-in-one-activity-one-after-the-other
+     * @param lv
+     */
     private void setListHeight(ListView lv) {
         ListAdapter la = lv.getAdapter();
         if(la == null)
@@ -73,6 +84,9 @@ public class TipsFragment extends Fragment {
         lv.requestLayout();
     }
 
+    /**
+     * Ensuring that on resume the logo is set to be displayed again
+     */
     @Override
     public void onResume() {
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);

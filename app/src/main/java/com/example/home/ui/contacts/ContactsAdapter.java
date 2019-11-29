@@ -30,9 +30,15 @@ public class ContactsAdapter extends ArrayAdapter<ServiceDetails> {
         TextView countyText;
     }
 
+    /**
+     * Calls the super class
+     * @param context
+     * @param details
+     */
     ContactsAdapter(Activity context, List<ServiceDetails> details) {
         super(context, R.layout.contacts_service, details);
     }
+
     /** This method instantiates the TextViews with their layout in contact_services.xml
      * then populates each with the details stored in ServiceDetails for the current position.
      * Linkify allows easy creation of clickable links for email, websites and phone numbers **/

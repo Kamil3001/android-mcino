@@ -40,6 +40,13 @@ public class ContactsFragment extends Fragment implements AdapterView.OnItemSele
     private static String county = "";
     private ListView listView;
 
+    /**
+     * Creates the ContactsFragment view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // create contacts fragment
         View root = inflater.inflate(R.layout.contacts_fragment, container, false);
@@ -105,6 +112,7 @@ public class ContactsFragment extends Fragment implements AdapterView.OnItemSele
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         super.onResume();
     }
+
     /** Creates a list of ServiceDetails each containing homeless service details by extracting
      * columns for each example returned from dbAssetHelper.getColumns().
      * @param item county to get the table of in dbAssetHelper
