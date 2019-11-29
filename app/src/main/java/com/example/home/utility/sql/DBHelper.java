@@ -15,6 +15,12 @@ import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
+/*
+
+Todo: Describe class here then comment code bits
+
+ */
+
 public class DBHelper extends SQLiteOpenHelper {
 
     public class Entry{
@@ -25,7 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
         private String sheltered;
         private String description;
 
-        public Entry(String location, int people, String sheltered, String description){
+        Entry(String location, int people, String sheltered, String description){
             this.latitude = location.split(",")[0];
             this.longitude = location.split(",")[1];
             this.people = people;
@@ -53,20 +59,16 @@ public class DBHelper extends SQLiteOpenHelper {
             return description;
         }
 
-
-
-
-
     }
 
-    public static final String DATABASE_NAME = "HOME";
-    public static final String REPORTS_TABLE_NAME = "REPORTS";
-    public static final String REPORTS_COLUMN_ID = "ID";
-    public static final String REPORTS_COLUMN_LOCATION = "LOCATION";
-    public static final String REPORTS_COLUMN_PEOPLE = "PEOPLE";
-    public static final String REPORTS_COLUMN_SHELTERED = "SHELTERED";
-    public static final String REPORTS_COLUMN_DESCRIPTION = "DESCRIPTION";
-    public static final String REPORTS_COLUMN_IMAGE = "IMAGE";
+    private static final String DATABASE_NAME = "HOME";
+    private static final String REPORTS_TABLE_NAME = "REPORTS";
+    private static final String REPORTS_COLUMN_ID = "ID";
+    private static final String REPORTS_COLUMN_LOCATION = "LOCATION";
+    private static final String REPORTS_COLUMN_PEOPLE = "PEOPLE";
+    private static final String REPORTS_COLUMN_SHELTERED = "SHELTERED";
+    private static final String REPORTS_COLUMN_DESCRIPTION = "DESCRIPTION";
+    private static final String REPORTS_COLUMN_IMAGE = "IMAGE";
 
     private boolean captured = false;
     private ArrayList<Entry> entries = new ArrayList<>();
@@ -118,7 +120,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         db.insert(REPORTS_TABLE_NAME, null, cv);
-        //entries.add(new Entry(location, people, sheltered, description));
+        entries.add(new Entry(location, people, sheltered, description));
 
         return true;
     }
@@ -127,7 +129,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         entries = new ArrayList<>();
         Cursor cur = db.rawQuery("SELECT * FROM " + REPORTS_TABLE_NAME,null);
-        CursorWindow cw = new CursorWindow("test", 5000000);
+        CursorWindow cw = new CursorWindow("test", 10000000);
         AbstractWindowedCursor ac = (AbstractWindowedCursor) cur;
         ac.setWindow(cw);
         try {
@@ -146,21 +148,21 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public String getLastEntry(){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cur = db.rawQuery("SELECT * FROM " + REPORTS_TABLE_NAME +
-                " WHERE " + REPORTS_COLUMN_ID +
-                "= (SELECT MAX(" +REPORTS_COLUMN_ID+") FROM " + REPORTS_TABLE_NAME+");",
+        AbstractWindowedCursor ac = (AbstractWindowedCursor) getReadableDatabase().rawQuery(
+                "SELECT * FROM " + REPORTS_TABLE_NAME +
+                        " WHERE " + REPORTS_COLUMN_ID +
+                        "= (SELECT MAX(" + REPORTS_COLUMN_ID +
+                        ") FROM " + REPORTS_TABLE_NAME +
+                        ");",
                 null);
+        ac.setWindow(new CursorWindow("test", 5000000));
 
-        CursorWindow cw = new CursorWindow("test", 5000000);
-        AbstractWindowedCursor ac = (AbstractWindowedCursor) cur;
-        ac.setWindow(cw);
         try {
             ac.moveToNext();
         } catch (SQLiteBlobTooBigException expected) {
             Log.v("SQL", expected.getMessage());
         }
+
         StringBuilder sb = new StringBuilder();
         sb.append(ac.getString(ac.getColumnIndex(REPORTS_COLUMN_ID)));
         sb.append("  ");
@@ -184,7 +186,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean hasEntries(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT count(*) FROM " + REPORTS_TABLE_NAME,null);
-        CursorWindow cw = new CursorWindow("test", 5000000);
+        CursorWindow cw = new CursorWindow("test", 10000000);
         AbstractWindowedCursor ac = (AbstractWindowedCursor) cursor;
         ac.setWindow(cw);
         try {

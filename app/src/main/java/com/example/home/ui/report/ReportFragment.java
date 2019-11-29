@@ -7,10 +7,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -25,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +30,6 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.home.MainActivity;
 import com.example.home.MyApplication;
@@ -48,6 +43,12 @@ import java.util.Calendar;
 
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 
+/*
+
+TODO: Comment this class and make sure methods are adequately commented
+
+ */
+
 public class ReportFragment extends Fragment implements LocationListener {
 
     private static final int RESULT_OK = -1;
@@ -55,39 +56,29 @@ public class ReportFragment extends Fragment implements LocationListener {
     private static final int REQUEST_TAKE_PHOTO = 2;
     private static final int REQUEST_PERMISSION_LOCATION = 1;
     private static final int REQUEST_PERMISSION_STORAGE = 2;
-    private ReportViewModel reportViewModel;
 
-    private Button btnGetLocation, btnSetLocation, btnReport;
     private FloatingActionButton btnCamera;
     private EditText txtDescription, txtNum;
     private TextView txtLocation;
     private SwitchCompat swSheltered;
     private LocationManager mLocationManager;
     private String reportedLocation;
-
     private Uri uriImage;
     private Bitmap bmImage;
-
-
-    private String location, description, sheltered;
-    private int people;
-
     private MainActivity main;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        reportViewModel = ViewModelProviders.of(this).get(ReportViewModel.class);
         View root = inflater.inflate(R.layout.report_fragment, container, false);
         main = (MainActivity) getActivity();
         main.getSupportActionBar().setTitle(R.string.title_report);
         main.uncheckNav();
 
-        btnGetLocation = root.findViewById(R.id.btnGetLocation);
-        btnSetLocation = root.findViewById(R.id.btnSetLocation);
+        Button btnGetLocation = root.findViewById(R.id.btnGetLocation);
+        Button btnSetLocation = root.findViewById(R.id.btnSetLocation);
         btnCamera = root.findViewById(R.id.btnCamera);
-        btnReport = root.findViewById(R.id.btnReport);
+        Button btnReport = root.findViewById(R.id.btnReport);
         txtDescription = root.findViewById(R.id.txtDescription);
         txtNum = root.findViewById(R.id.txtNum);
         txtLocation = root.findViewById(R.id.txtLocation);
@@ -95,10 +86,10 @@ public class ReportFragment extends Fragment implements LocationListener {
 
         mLocationManager = (LocationManager) main.getSystemService(Context.LOCATION_SERVICE);
 
-        reportViewModel.getText().observe(this, s -> btnGetLocation.setOnClickListener(this::onClick));
-        reportViewModel.getText().observe(this, s-> btnSetLocation.setOnClickListener(this::onClick));
-        reportViewModel.getText().observe(this, s-> btnReport.setOnClickListener(this::onClick));
-        reportViewModel.getText().observe(this, s-> btnCamera.setOnClickListener(this::onClick));
+        btnGetLocation.setOnClickListener(this::onClick);
+        btnSetLocation.setOnClickListener(this::onClick);
+        btnReport.setOnClickListener(this::onClick);
+        btnCamera.setOnClickListener(this::onClick);
 
         if (checkSelfPermission(main, Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED && checkSelfPermission(main, Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_LOCATION);
@@ -114,7 +105,7 @@ public class ReportFragment extends Fragment implements LocationListener {
 
     @SuppressLint("MissingPermission")
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_PERMISSION_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
@@ -122,14 +113,11 @@ public class ReportFragment extends Fragment implements LocationListener {
                     mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 500, this);
                     mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 500, this);
                 }
-//                else {
-//                    Toast.makeText(main, "Location permission denied", Toast.LENGTH_SHORT).show();
-//                }
                 break;
             }
             case REQUEST_PERMISSION_STORAGE: {
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    File photo = null;
+                    File photo;
                     try {
                         photo =  File.createTempFile(String.valueOf(Calendar.getInstance().getTime()), ".jpg", Environment.getExternalStorageDirectory());
                         uriImage = Uri.fromFile(photo);
@@ -145,9 +133,6 @@ public class ReportFragment extends Fragment implements LocationListener {
                         Log.d("REPORT", "Could not create temp file:", e);
                     }
                 }
-//                else{
-//                    Toast.makeText(main, "Writing to storage permission denied", Toast.LENGTH_SHORT).show();
-//                }
             }
         }
     }
@@ -172,119 +157,129 @@ public class ReportFragment extends Fragment implements LocationListener {
     }
 
     private void onClick(View v){
-        if(v.getId() == R.id.btnSetLocation){
-            if (checkSelfPermission(main, Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED && checkSelfPermission(main, Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_LOCATION);
+        switch (v.getId()) {
+            case R.id.btnSetLocation: {
+                if (checkSelfPermission(main, Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED && checkSelfPermission(main, Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_LOCATION);
+                }
+                else {
+                    Log.i("REPORT", "Moving to location fragment...");
+                    FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+                    LocationFragment locationFragment = new LocationFragment();
+                    locationFragment.setTargetFragment(ReportFragment.this, REQUEST_PASS_DATA);
+                    ft.addToBackStack(locationFragment.getClass().getName());
+                    ft.add(R.id.nav_host_fragment, locationFragment, "location");
+                    ft.commit();
+                    mLocationManager.removeUpdates(this);
+                }
+                break;
             }
-            else {
-                Log.i("REPORT", "Moving to location fragment...");
-                FragmentTransaction ft = this.getFragmentManager().beginTransaction();
-                LocationFragment locationFragment = new LocationFragment();
-                locationFragment.setTargetFragment(ReportFragment.this, REQUEST_PASS_DATA);
-                ft.addToBackStack(locationFragment.getClass().getName());
-                ft.add(R.id.nav_host_fragment, locationFragment, "location");
-                ft.commit();
-            }
-        }
-        else if(v.getId() == R.id.btnGetLocation){
-            if (checkSelfPermission(main, Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED && checkSelfPermission(main, Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_LOCATION);
-            }
-            else {
+            case R.id.btnGetLocation: {
+                if (checkSelfPermission(main, Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED && checkSelfPermission(main, Manifest.permission.ACCESS_COARSE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_LOCATION);
+                }
+                else {
 //                Toast.makeText(main, "Getting your location", Toast.LENGTH_LONG).show();
-                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 500, this);
-                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 500, this);
-            }
-        }
-        else if(v.getId() == R.id.btnCamera){
-            if (checkSelfPermission(main, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED){
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_STORAGE);
-            }
-            else{
-                File photo = null;
-                try {
-                    photo =  File.createTempFile(String.valueOf(Calendar.getInstance().getTime()), ".jpg", Environment.getExternalStorageDirectory());
-                    uriImage = Uri.fromFile(photo);
-                    Log.v("REPORT", "Created: " + photo.getAbsolutePath());
-                    Intent intentCamera = new Intent("android.media.action.IMAGE_CAPTURE");
-                    intentCamera.putExtra(MediaStore.EXTRA_OUTPUT,uriImage);
-                    Log.i("REPORT", "Loading camera..");
-                    // Needed for VM use
-                    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                    StrictMode.setVmPolicy(builder.build());
-                    startActivityForResult(intentCamera, REQUEST_TAKE_PHOTO);
-                } catch (IOException e) {
-                    Log.d("REPORT", "Could not create temp file:", e);
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 500, this);
+                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 500, this);
                 }
+                break;
             }
-
-        }
-        else if(v.getId() == R.id.btnReport){
-            Log.i("REPORT", "Checking values...");
-            location = txtLocation.getText().toString();
-            try {
-                people = Integer.valueOf(txtNum.getText().toString());
-            }catch(NumberFormatException e){
-                Log.d("REPORT", "Non-integer value entered for number of people...");
-                Toast.makeText(main, "Invalid value entered for number of people", Toast.LENGTH_LONG).show();
-                return;
-            }
-            if(swSheltered.isChecked()){
-                sheltered = "Yes";
-            }else{
-                sheltered = "No";
-            }
-            description =  txtDescription.getText().toString();
-            if(!location.contains(",")){
-                new AlertDialog.Builder(getContext())
-                        .setTitle("Location not set")
-                        .setMessage("Please specify your location before sending your report")
-                        .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
-                        .show();
-            }
-            else if(description.isEmpty() || people <= 0){
-                new AlertDialog.Builder(getContext())
-                        .setTitle("Empty fields")
-                        .setMessage("All fields must be filled in before sending your report.")
-                        .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
-                        .show();
-            }
-            else{
-                Log.i("REPORT", "All good...");
-                Log.i("REPORT", "Sending values to DB...");
-                if(MainActivity.sql.insertReport(location, people, sheltered, description, bmImage)){
-                    Toast.makeText(getContext(), "Reported successfully", Toast.LENGTH_LONG).show();
-                    Log.i("SQL", MainActivity.sql.getLastEntry());
-                    if(uriImage != null) {
-                        Log.i("REPORT", "Removing captured image from external storage...");
-                        new File(uriImage.getPath()).delete();
+            case R.id.btnCamera: {
+                if (checkSelfPermission(main, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED){
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_STORAGE);
+                }
+                else{
+                    File photo;
+                    try {
+                        photo =  File.createTempFile(String.valueOf(Calendar.getInstance().getTime()), ".jpg", Environment.getExternalStorageDirectory());
+                        uriImage = Uri.fromFile(photo);
+                        Log.v("REPORT", "Created: " + photo.getAbsolutePath());
+                        Intent intentCamera = new Intent("android.media.action.IMAGE_CAPTURE");
+                        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT,uriImage);
+                        Log.i("REPORT", "Loading camera..");
+                        // Needed for VM use
+                        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                        StrictMode.setVmPolicy(builder.build());
+                        startActivityForResult(intentCamera, REQUEST_TAKE_PHOTO);
+                    } catch (IOException e) {
+                        Log.d("REPORT", "Could not create temp file:", e);
                     }
-                    Log.i("REPORT", "Moving user back to home screen...");
-                    main.onBackPressed();
                 }
+                break;
+            }
+            case R.id.btnReport: {
+                Log.i("REPORT", "Checking values...");
+                String location = txtLocation.getText().toString();
+
+                int people;
+                try {
+                    people = Integer.valueOf(txtNum.getText().toString());
+                }catch(NumberFormatException e){
+                    Log.d("REPORT", "Non-integer value entered for number of people...");
+                    Toast.makeText(main, "Invalid value entered for number of people", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                String sheltered;
+                if(swSheltered.isChecked()){
+                    sheltered = "Yes";
+                }else{
+                    sheltered = "No";
+                }
+
+                String description = txtDescription.getText().toString();
+                if(!location.contains(",")){
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Location not set")
+                            .setMessage("Please specify your location before sending your report")
+                            .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
+                            .show();
+                }
+                else if(description.isEmpty() || people <= 0){
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Empty fields")
+                            .setMessage("All fields must be filled in before sending your report.")
+                            .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
+                            .show();
+                }
+                else{
+                    Log.i("REPORT", "All good...");
+                    Log.i("REPORT", "Sending values to DB...");
+                    if(MainActivity.sql.insertReport(location, people, sheltered, description, bmImage)){
+                        Toast.makeText(getContext(), "Reported successfully", Toast.LENGTH_LONG).show();
+                        Log.i("SQL", MainActivity.sql.getLastEntry());
+                        if(uriImage != null) {
+                            Log.i("REPORT", "Removing captured image from external storage...");
+                            new File(uriImage.getPath()).delete();
+                        }
+                        Log.i("REPORT", "Moving user back to home screen...");
+                        main.onBackPressed();
+                    }
+                }
+                break;
             }
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             Log.v("REPORT", "RESULT_OKAY");
-            if (requestCode == REQUEST_PASS_DATA) {
-                Log.i("REPORT", "REQUEST_PASS_DATA");
-                reportedLocation = data.getStringExtra("location");
-                txtLocation.setText(reportedLocation);
-            }
-            if(requestCode == REQUEST_TAKE_PHOTO){
-                Log.i("REPORT", "REQUEST_TAKE_PHOTO");
-                bmImage = grabImage(); // grabbing captured image stored in temp file
-                Log.i("REPORT", "Success grabbing image");
-                btnCamera.setEnabled(false);
-                btnCamera.setImageResource(R.drawable.tick);
-            }
         }
-
+        else if (requestCode == REQUEST_PASS_DATA) {
+            Log.i("REPORT", "REQUEST_PASS_DATA");
+            reportedLocation = data.getStringExtra("location");
+            txtLocation.setText(reportedLocation);
+        }
+        else if(requestCode == REQUEST_TAKE_PHOTO){
+            Log.i("REPORT", "REQUEST_TAKE_PHOTO");
+            bmImage = grabImage(); // grabbing captured image stored in temp file
+            Log.i("REPORT", "Success grabbing image");
+            btnCamera.setEnabled(false);
+            btnCamera.setImageResource(R.drawable.tick);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private Bitmap grabImage() {

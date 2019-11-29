@@ -24,6 +24,12 @@ import com.example.home.utility.sql.DBAssetHelper;
 import com.example.home.utility.sql.DBHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+/*
+
+Todo: Describe class here then comment code bits
+
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView navView;
@@ -93,20 +99,10 @@ public class MainActivity extends AppCompatActivity {
             myDialog.getWindow().findViewById(R.id.btn_call).setVisibility(View.GONE);
         } else {
             Button emailBtn = myDialog.findViewById(R.id.btn_email);
-            emailBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    composeEmail();
-                }
-            });
+            emailBtn.setOnClickListener(v -> composeEmail());
 
             Button callBtn = myDialog.findViewById(R.id.btn_call);
-            callBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialNumber();
-                }
-            });
+            callBtn.setOnClickListener(v -> dialNumber());
         }
 
         /*
