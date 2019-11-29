@@ -7,12 +7,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
-/*
-
-TODO: Comment this class and make sure methods are adequately commented
-
- */
-
 /***
  * This database helper class is used to access the database (assets/databases/county_details.db)
  * with tables: county, county_colours, figures & services by
