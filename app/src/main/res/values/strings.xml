@@ -128,4 +128,9 @@
     <string name="desc">Description</string>
     <string name="counties_description">An image of Ireland with county borders</string>
     <string name="counties_colour_description">An image of Ireland with each county in the republic coloured differently as per county_colours table in county_details</string>
+    <string name="statsInfoText">Click on a county in the Republic of Ireland (yes, the 6 northern counties don\'t count) to display the number of homeless people recorded per month</string>
+    <string name="county">County</string>
+    <string name="month1">June \'19</string>
+    <string name="month2">July \'19</string>
+    <string name="month3">August \'19</string>
 </resources>

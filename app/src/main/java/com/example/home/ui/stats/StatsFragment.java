@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,8 +22,8 @@ import com.example.home.utility.sql.DBAssetHelper;
 
 public class StatsFragment extends Fragment implements View.OnTouchListener {
 
+    private TableRow row;
     private ImageView imageView;
-    private TextView statsText;
     private DBAssetHelper dbAssetHelper;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -33,11 +34,11 @@ public class StatsFragment extends Fragment implements View.OnTouchListener {
         ImageView imageView = root.findViewById(R.id.coloured_map);
         imageView.setOnTouchListener(this);
 
+        row = root.findViewById(R.id.countyStats);
 
         MainActivity main = (MainActivity) getActivity();
         main.getSupportActionBar().setTitle(R.string.title_stats);
         main.uncheckNav();
-        statsText = root.findViewById(R.id.stats_textView);
 
         return root;
     }
@@ -85,15 +86,18 @@ public class StatsFragment extends Fragment implements View.OnTouchListener {
     private void setStatistics(String hexColour){
         Cursor c = dbAssetHelper.getCountyFigures(dbAssetHelper.getCountyByColour(hexColour));
         if(c.getCount()>0) {
-            StringBuilder str = new StringBuilder();
-            statsText.setText(String.format("%20s%20s%20s%20s","County","June '19","July '19","August '19\n"));
+            String[] data = new String[] {
+                    c.getString(c.getColumnIndex("County")),
+                    c.getString(c.getColumnIndex("June_19")),
+                    c.getString(c.getColumnIndex("July_19")),
+                    c.getString(c.getColumnIndex("August_19"))
+            };
 
-            str.append(String.format("%20s", c.getString(c.getColumnIndex("County"))));
-            str.append(String.format("%20s", c.getString(c.getColumnIndex("June_19"))));
-            str.append(String.format("%20s", c.getString(c.getColumnIndex("July_19"))));
-            str.append(String.format("%20s", c.getString(c.getColumnIndex("August_19"))));
-
-            statsText.append(str);
+            TextView t;
+            for(int i=0; i<4; i++) {
+                t = (TextView) row.getVirtualChildAt(i);
+                t.setText(data[i]);
+            }
         }
     }
 }

@@ -1,9 +1,7 @@
 package com.example.home.ui.contacts;
 
 import android.database.Cursor;
-
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-
 import androidx.fragment.app.Fragment;
 
 import com.example.home.MainActivity;
@@ -58,21 +54,8 @@ public class ContactsFragment extends Fragment implements AdapterView.OnItemSele
         // instantiate listView
         listView = root.findViewById(R.id.contacts_list);
 
-        return root;
-    }
-
-    /** Sets the contact details for a user selected county or location based
-     * @param adapterView The AdapterView where the selection happened - this
-     * @param view The view within the AdapterView that was clicked - spinner
-     * @param i The position of the spinner
-     * **/
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String item;
-
-        // if location has been set
         if(!county.equals("")) {
-            item = county;
+            String item = county;
             int index=0;
             // find corresponding county in counties_array
             String [] counties = getContext().getResources().getStringArray(R.array.counties_array);
@@ -84,15 +67,26 @@ public class ContactsFragment extends Fragment implements AdapterView.OnItemSele
                 }
                 index++;
             }
+            contactsAdapter = new ContactsAdapter(getActivity(), setServices(item));
+            listView.setAdapter(contactsAdapter);
         }
-        // else use county selected in spinner
-        else {
-            item = adapterView.getItemAtPosition(i).toString();
-            // if 1 of Dublin sub regions
-            if(item.contains("¬"))
-                item = item.substring(1);
-        }
-        Toast.makeText(adapterView.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+
+        return root;
+    }
+
+
+    /** Sets the contact details for a user selected county or location based
+     * @param adapterView The AdapterView where the selection happened - this
+     * @param view The view within the AdapterView that was clicked - spinner
+     * @param i The position of the spinner
+     * **/
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        // if county not set in report fragment
+        String item = adapterView.getItemAtPosition(i).toString();
+        // if 1 of Dublin sub regions
+        if(item.contains("¬"))
+            item = item.substring(1);
 
         // Create a for each service returned by setServices()
 
