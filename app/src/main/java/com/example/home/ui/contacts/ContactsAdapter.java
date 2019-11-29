@@ -1,26 +1,28 @@
 package com.example.home.ui.contacts;
 
 import android.app.Activity;
+
 import android.text.util.Linkify;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.home.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/** A custom adapter class to create and store a view containing all the
+ * different TextViews that make up a service **/
 public class ContactsAdapter extends ArrayAdapter<ServiceDetails> {
 
-    private final Activity context;
-
+    /** inner-class that holds the TextViews of each service **/
     private static class ViewHolder {
         TextView titleText;
         TextView urlText;
@@ -28,11 +30,12 @@ public class ContactsAdapter extends ArrayAdapter<ServiceDetails> {
         TextView countyText;
     }
 
-    public ContactsAdapter(Activity context, List<ServiceDetails> details) {
+    ContactsAdapter(Activity context, List<ServiceDetails> details) {
         super(context, R.layout.contacts_service, details);
-        this.context = context;
-
     }
+    /** This method instantiates the TextViews with their layout in contact_services.xml
+     * then populates each with the details stored in ServiceDetails for the current position.
+     * Linkify allows easy creation of clickable links for email, websites and phone numbers **/
     public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
         ServiceDetails sd = getItem(position);
         ViewHolder viewHolder;
@@ -63,16 +66,4 @@ public class ContactsAdapter extends ArrayAdapter<ServiceDetails> {
     }
 
 }
-class ServiceDetails{
-    String name;
-    String url;
-    String phoneNumber;
-    String county;
-    ServiceDetails(String name,  String phoneNumber, String url, String county){
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.url = url;
-        this.county = county;
-    }
 
-}
